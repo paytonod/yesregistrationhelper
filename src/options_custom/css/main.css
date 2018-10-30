@@ -11,18 +11,14 @@
     position: absolute;
     background-color: #EDEDED;
     background-image: linear-gradient(top, #EDEDED, #F5F5F5);
-    background-image: -webkit-gradient(
-        linear,
+    background-image: -webkit-gradient(linear,
         left top,
         left 500,
         color-stop(0, #EDEDED),
-        color-stop(1, #F5F5F5)
-    );
-    background-image: -moz-linear-gradient(
-        center top,
+        color-stop(1, #F5F5F5));
+    background-image: -moz-linear-gradient(center top,
         #EDEDED 0%,
-        #F5F5F5 100%
-    );
+        #F5F5F5 100%);
     background-image: -o-linear-gradient(top, #EDEDED, #F5F5F5);
     width: 219px;
     top: 0;
@@ -81,7 +77,8 @@
     width: 130px;
 }
 
-#tab-container .tab.active, body.searching #search-container {
+#tab-container .tab.active,
+body.searching #search-container {
     background-color: #D4D4D4;
     border-color: #BFBFBF;
     color: black;
@@ -125,7 +122,8 @@ body.searching #search-result-container {
     display: block !important;
 }
 
-body.measuring .tab-content, body.measuring #search-result-container {
+body.measuring .tab-content,
+body.measuring #search-result-container {
     display: block !important;
     opacity: 0;
     overflow: hidden;
