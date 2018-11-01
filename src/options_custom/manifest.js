@@ -2,8 +2,7 @@
 this.manifest = {
     "name": "My Extension",
     "icon": "icon.png",
-    "settings": [
-        {
+    "settings": [{
             "tab": i18n.get("information"),
             "group": i18n.get("login"),
             "name": "username",
@@ -80,8 +79,7 @@ this.manifest = {
                 "groups": [
                     "Hot", "Cold",
                 ],
-                "values": [
-                    {
+                "values": [{
                         "value": "hot",
                         "text": "Very hot",
                         "group": "Hot",

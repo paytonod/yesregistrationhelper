@@ -14,14 +14,57 @@ html {
     border: 0;
 }
 
-body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, code,
-del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, dialog, figure, footer, header,
-hgroup, nav, section {
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+code,
+del,
+dfn,
+em,
+img,
+q,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
     margin: 0;
     padding: 0;
     border: 0;
@@ -32,8 +75,15 @@ hgroup, nav, section {
     vertical-align: baseline;
 }
 
-article, aside, dialog, figure, footer, header,
-hgroup, nav, section {
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
     display: block;
 }
 
@@ -47,21 +97,29 @@ table {
     border-spacing: 0;
 }
 
-caption, th, td {
+caption,
+th,
+td {
     text-align: left;
     font-weight: normal;
 }
 
-table, th, td {
+table,
+th,
+td {
     vertical-align: middle;
 }
 
-blockquote:before, blockquote:after, q:before, q:after {
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
     content: "";
 }
 
-blockquote, q {
-    quotes: "" "";
+blockquote,
+q {
+    quotes: """";
 }
 
 a img {
@@ -83,7 +141,12 @@ body {
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: normal;
     color: #111111;
 }
@@ -122,8 +185,12 @@ h6 {
     font-weight: bold;
 }
 
-h1 img, h2 img, h3 img,
-h4 img, h5 img, h6 img {
+h1 img,
+h2 img,
+h3 img,
+h4 img,
+h5 img,
+h6 img {
     margin: 0;
 }
 
@@ -150,7 +217,8 @@ p .right {
     padding: 0;
 }
 
-a:focus, a:hover {
+a:focus,
+a:hover {
     color: #0099FF;
 }
 
@@ -165,19 +233,23 @@ blockquote {
     color: #666666;
 }
 
-strong, dfn {
+strong,
+dfn {
     font-weight: bold;
 }
 
-em, dfn {
+em,
+dfn {
     font-style: italic;
 }
 
-sup, sub {
+sup,
+sub {
     line-height: 0;
 }
 
-abbr, acronym {
+abbr,
+acronym {
     border-bottom: 1px dotted #666666;
 }
 
@@ -195,17 +267,21 @@ pre {
     white-space: pre;
 }
 
-pre, code, tt {
+pre,
+code,
+tt {
     font: 1em "andale mono", "lucida console", monospace;
     line-height: 1.5;
 }
 
 /* Lists */
-li ul, li ol {
+li ul,
+li ol {
     margin: 0;
 }
 
-ul, ol {
+ul,
+ol {
     margin: 0 1.5em 1.5em 0;
     padding-left: 1.5em;
 }
@@ -240,15 +316,19 @@ th {
     font-weight: bold;
 }
 
-table.zebra thead th, table.zebra tfoot th {
+table.zebra thead th,
+table.zebra tfoot th {
     background-color: #BFBFBF;
 }
 
-th, td, caption {
+th,
+td,
+caption {
     padding: 4px 10px 4px 5px;
 }
 
-table.zebra tbody tr:nth-child(even) td, table.zebra tbody tr.even td {
+table.zebra tbody tr:nth-child(even) td,
+table.zebra tbody tr.even td {
     background-color: #E6E6E6;
 }
 
@@ -285,7 +365,8 @@ caption {
     -o-user-select: auto;
 }
 
-img.select, .select img {
+img.select,
+.select img {
     user-drag: auto;
     -webkit-user-drag: auto;
     -moz-user-drag: auto;
@@ -300,18 +381,21 @@ img.select, .select img {
     -o-user-select: none;
 }
 
-img.no-select, .no-select img {
+img.no-select,
+.no-select img {
     user-drag: none;
     -webkit-user-drag: none;
     -moz-user-drag: none;
     -o-user-drag: none;
 }
 
-.focus:focus, .focus :focus {
+.focus:focus,
+.focus :focus {
     outline: auto;
 }
 
-.no-focus:focus, .no-focus :focus {
+.no-focus:focus,
+.no-focus :focus {
     outline: 0;
 }
 
@@ -398,17 +482,22 @@ legend {
 }
 
 /* Form fields */
-input[type=text], input[type=password], textarea {
+input[type=text],
+input[type=password],
+textarea {
     background-color: white;
     border: 1px solid #BBBBBB;
 }
 
-input[type=text], input[type=password],
-textarea, select {
+input[type=text],
+input[type=password],
+textarea,
+select {
     margin: 0.5em 0;
 }
 
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password] {
     width: 300px;
     padding: 4px;
 }
@@ -420,7 +509,10 @@ textarea {
 }
 
 /* success, info, notice and error boxes */
-.success, .info, .notice, .error {
+.success,
+.info,
+.notice,
+.error {
     margin-bottom: 1em;
     padding: 0.8em;
     border: 2px solid #DDDDDD;

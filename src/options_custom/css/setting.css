@@ -35,17 +35,19 @@
     margin-bottom: 10px;
 }
 
-.setting.label.radio-buttons + .setting.container.radio-buttons {
+.setting.label.radio-buttons+.setting.container.radio-buttons {
     margin-top: 3px;
 }
 
-.setting.label, .setting.element-label {
+.setting.label,
+.setting.element-label {
     margin-right: 15px;
     font-size: 13px;
     font-weight: normal;
 }
 
-.setting.label.checkbox, .setting.element-label {
+.setting.label.checkbox,
+.setting.element-label {
     margin-left: 5px;
     margin-right: 0;
 }
