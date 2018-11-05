@@ -28,14 +28,17 @@
     "contextMenus",
     "cookies",
     "history",
-    "tabs"
+    "tabs",
+    "activeTab"
   ],
   "content_scripts": [{
     "matches": [
-      "https://www.google.com/*"
+      "https://google.com/*",
+      "https://acad.app.vanderbilt.edu/more/GetSchedule!input.action"
     ],
     "js": [
-      "src/inject/inject.js"
+      "src/inject/inject.js",
+      "src/inject/scheduleContentScript.js"
     ]
   }]
 }
