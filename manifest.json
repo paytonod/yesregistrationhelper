@@ -33,7 +33,7 @@
   ],
   "content_scripts": [{
     "matches": [
-      "https://google.com/*",
+      "https://acad.app.vanderbilt.edu/*",
       "https://acad.app.vanderbilt.edu/more/GetSchedule!input.action"
     ],
     "js": [
