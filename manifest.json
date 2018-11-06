@@ -19,25 +19,28 @@
   "options_page": "src/options_custom/index.html",
   "browser_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "browser action demo",
-    "default_popup": "src/browser_action/browser_action.html",
-    "popup": "src/browser_action/browser_action.html"
+    "default_title": "browser action demo"
+    //"default_popup": "src/browser_action/browser_action.html"
+    //"popup": "src/browser_action/browser_action.html"
   },
   "permissions": [
     "contentSettings",
     "contextMenus",
     "cookies",
     "history",
-    "tabs"
-  ],
-  "content_scripts": [
-    {
-      "matches": [
-        "https://www.google.com/*"
-      ],
-      "js": [
-        "src/inject/inject.js"
-      ]
-    }
+    "tabs",
+    "http://*/",
+    "https://*/"
   ]
+//  "content_scripts": [
+//    {
+//      "matches": [
+//        "https://www.google.com/*",
+//        "https://acad.app.vanderbilt.edu/*"
+//      ],
+//      "js": [
+//       "src/inject/inject.js"
+//      ]
+//    }
+//  ]
 }
