@@ -27,15 +27,25 @@ chrome.extension.sendMessage({}, function (response) {
             iframe.style.scrolling = "no";
             iframe.src = 'https://acad.app.vanderbilt.edu/more/GetSchedule!input.action#scheduleTable';
 
-            fetch('/more/GetSchedule!input.action')
-                .then(function (response) {
-                    return response.text();
-                })
-                .then(function (body) {
-                    let x = document.createElement('html');
-                    x.innerHTML = body;
-                    console.log(x.getElementsByClassName("scheduleTable"));
-                });
+            // fetch('/more/GetSchedule!input.action')
+            //     .then(function (response) {
+            //         return response.text();
+            //     })
+            //     .then(function (body) {
+            //         // Replicate the other HTML page
+            //         let x = document.createElement('html');
+            //         let xBody = document.createElement('body');
+            //         xBody.innerHTML = body;
+            //         x.append(xBody);
+
+            //         // Isolate the div
+            //         let sched = x.getElementsByTagName("div")[52];
+
+            //         console.log(sched);
+            //         // x.body.innerHTML = body;
+            //         // console.log(x.getElementsByClassName("scheduleTable"));
+            //     });
+
             // Append wrapper div to page
             // document.body.appendChild(wrapper);
             // document.getElementById('wrapper').appendChild(iframe);
