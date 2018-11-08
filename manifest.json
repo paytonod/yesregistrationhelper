@@ -26,14 +26,17 @@
     "contextMenus",
     "cookies",
     "history",
-    "tabs"
+    "tabs",
+    "http://*/",
+    "https://*/"
   ],
   "content_scripts": [{
     "matches": [
       "https://www.google.com/*"
     ],
     "js": [
-      "src/inject/inject.js"
+      "src/inject/inject.js",
+      "src/inject/schedule.js"
     ]
   }]
 }

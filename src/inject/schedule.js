@@ -27,5 +27,5 @@ chrome.extension.sendMessage({}, function (response) {
             (document.getElementById('wrapper')).appendChild(iframe);
             // ----------------------------------------------------------
         }
-    }, 10);
+    }, 0);
 });
