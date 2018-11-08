@@ -13,6 +13,5 @@
 //   });
 
 chrome.browserAction.onClicked.addListener(function(tab) {
-    alert('icon clicked');
     chrome.tabs.executeScript(null, {file: "/src/inject/schedule.js"});
 });
