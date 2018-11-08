@@ -1,14 +1,24 @@
 window.onload = function() {
+    //document.domain = "acad.app.vanderbilt.edu";
+    let iframe = document.createElement("IFRAME");
+    iframe.src = "https://acad.app.vanderbilt.edu/more/SearchClasses!input.action";
+    iframe.style.height = "500px";
+    iframe.style.width = "500px";
+    iframe.setAttribute("id", "listPage");
+    iframe.setAttribute("name", "site")
+    document.body.appendChild(iframe);
+
     var readyStateCheckInterval = setInterval(function() {
         if (document.readyState === "complete") {
-
             let buttons = document.getElementsByClassName("event eventEnrolled");
+            
             for (var i = 0, len = buttons.length; i<len; i++)
             {
                 let newBut2 = document.createElement("BUTTON");
                 let newText2 = document.createTextNode("--");
                 newBut2.appendChild(newText2);
-
+                
+                //styling buttons
                 newBut2.style.backgroundColor = "red";
                 newBut2.style.borderColor = "red";
                 newBut2.style.color = "white";
@@ -18,7 +28,7 @@ window.onload = function() {
                 newBut2.style.alignItems = "right";
                 newBut2.style.fontSize = '12px';
                 newBut2.style.textAlign = "center";
-
+                
                 if (buttons.item(i).children.length < 1)
                 {
                     document.body.appendChild(newBut2);
@@ -33,33 +43,45 @@ window.onload = function() {
                         console.log("clicked!");
                         let classNum = newBut2.parentElement.id.split("_")[2];
                         console.log(classNum);
+                        
+                        // let ifr = document.getElementById("listPage");
+                        // let doc = ifr.contentDocument? ifr.contentDocument : ifr.contentWindow.document;
+                        let ifr = document.getElementById("listPage");
+                        let doc = ifr.contentDocument? ifr.contentDocument : ifr.contentWindow.document;
+                        let next1 = doc.getElementById("yui-pg0-0-next-link16");
+                        let classList = doc.getElementById("enrolledClassSections").getElementsByClassName("classSectionTableTag");
+                        if (next1) {
+                            next1.click();
+                            //make this work onload
+                            setInterval(function() {
+                                next1.click();
+                            }, 1000);
+                            
+                        }
+                        
+                        //make this work onload
+                        setInterval(function() {
+                            ifr = document.getElementById("listPage");
+                            doc = ifr.contentDocument? ifr.contentDocument : ifr.contentWindow.document;
+                            classList = doc.getElementById("enrolledClassSections").getElementsByClassName("classSectionTableTag").item(0).children;
+                        }, 2000);
 
-                        // let listPage = new XMLHttpRequest();
-                        // function reqListener() {
-                        //     console.log(this.responseXML.title);
-                        // }
-                        // listPage.addEventListener("load", reqListener);
-                        // listPage.open("GET", "SearchClasses!input.action");
-                        // listPage.responseType = "document";
-                        // listPage.send(document); 
-
-                        let classList = document.getElementById("EnrolledClassesList_div").children;
-                        let checkbox;
-                        for (var i = 0, len = classList.length; i < len; i++)
+                        for (var i = 0, len = classList.item(0).children.length-1; i < len; i++)
                         {
-                            let classSel = classList.item(i).tBodies.item(0).children.item(2).children.item(0);
-                            console.log(classSel.id.split("_"));
-                            if (classSel.id.split("_")[1] == classNum)
+                            let className = classList.item(0).children.item(i).getElementsByClassName("classHeader")[0].innerText;
+                            let classSel = classList.item(0).children.item(i).getElementsByClassName("classRow");
+                            
+                            if (classSel[0].children.item(1).id.split("_")[1] == classNum)
                             {
-                                checkbox = classList.item(i).tBodies.item(0).children.item(2).cells[0];
+                                
+                                classSel[0].children.item(0).getElementsByClassName("checkBoxDiv")[0].children.item(0).checked = true;
                                 i+=len;
+                                console.log(className.concat(" dropped."));
+                                
+                                //****Uncomment to Make Drop Happen */
+                                //doc.getElementById("dropButton").click();
                             }
                         }
-
-                        //click Order Books instead of drop
-                        var submit = document.getElementById("bookNowIndicator").getElementsByClassName("first-child").item(0).children.item(0);
-                        console.log(submit);
-                        submit.click();
                     }
                 }
             }
