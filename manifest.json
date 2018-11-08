@@ -32,11 +32,13 @@
   ],
   "content_scripts": [{
     "matches": [
-      "https://www.google.com/*"
+      "https://acad.app.vanderbilt.edu/*",
+      "https://acad.app.vanderbilt.edu/more/GetSchedule!input.action"
     ],
     "js": [
       "src/inject/inject.js",
-      "src/inject/schedule.js"
+      "src/inject/schedule.js",
+      "src/inject/scheduleContentScript.js"
     ]
   }]
 }

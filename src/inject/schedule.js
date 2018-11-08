@@ -19,8 +19,9 @@ chrome.extension.sendMessage({}, function (response) {
         wrapper.setAttribute("id", "wrapper");
         wrapper.style.borderStyle = "inset";
         wrapper.style.borderColor = "grey";
-        wrapper.style.overflow = "scroll";
+        wrapper.style.overflow = "hidden";
         wrapper.style.height = "400px";
+        wrapper.scrolling = "no";
 
         // create an iframe to show the schedule
         let iframe = document.createElement('iframe');

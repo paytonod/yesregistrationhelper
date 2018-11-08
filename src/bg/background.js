@@ -1,5 +1,5 @@
-chrome.browserAction.onClicked.addListener(function (tab) {
-    chrome.tabs.executeScript(null, {
-        file: "/src/inject/schedule.js"
+chrome.extension.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        chrome.pageAction.show(sender.tab.id);
+        sendResponse();
     });
-});
