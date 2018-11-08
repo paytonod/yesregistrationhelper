@@ -47,8 +47,8 @@ chrome.extension.sendMessage({}, function (response) {
             //     });
 
             // Append wrapper div to page
-            // document.body.appendChild(wrapper);
-            // document.getElementById('wrapper').appendChild(iframe);
+            document.body.appendChild(wrapper);
+            document.getElementById('wrapper').appendChild(iframe);
         }
     }, 0);
 });
