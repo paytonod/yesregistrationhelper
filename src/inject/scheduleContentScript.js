@@ -5,8 +5,9 @@ window.onload = function() {
     {
         let iframe = document.createElement("IFRAME"); 
         iframe.src = "https://acad.app.vanderbilt.edu/more/SearchClasses!input.action";
-        iframe.style.height = "500px";
-        iframe.style.width = "500px";
+        iframe.style.height = "0px";
+        iframe.style.width = "0px";
+        iframe.style.border = "0px";
         iframe.setAttribute("id", "listPage");
         iframe.setAttribute("name", "site")
         document.body.appendChild(iframe);
