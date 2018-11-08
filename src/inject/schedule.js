@@ -2,7 +2,7 @@
 chrome.extension.sendMessage({}, function (response) {
     let readyStateCheckInterval = setInterval(function () {
         // Check document state and URI for correct page
-        if (document.readyState === "complete" && document.documentURI.find("SearchClasses")) {
+        if (document.readyState === "complete" && document.getElementsByTagName("h1")[2].innerText === "Enrolled") {
             // Clear interval
             clearInterval(readyStateCheckInterval);
 
