@@ -34,7 +34,7 @@ chrome.runtime.sendMessage({}, function(res) {
     // Create an iframe to display the schedule
     let iframe: HTMLIFrameElement = document.createElement("iframe");
 
-    // Style the iframe so it focuses on the schedule
+    // Define and style the iframe so it focuses on the schedule
     iframe.style.width = "100%";
     iframe.style.height = "1000%";
     iframe.style.marginLeft = "-45px";
