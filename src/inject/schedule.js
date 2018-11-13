@@ -31,6 +31,7 @@ chrome.extension.sendMessage({}, function (response) {
         iframe.style.marginLeft = "-45px";
         iframe.style.marginTop = "-300px";
         iframe.style.overflow = "hidden";
+        iframe.style.pointerEvents = "none";
         iframe.src = 'https://acad.app.vanderbilt.edu/more/GetSchedule!input.action#scheduleTable';
 
         // add the wrapper to the page and the iframe to the wrapper
@@ -38,4 +39,3 @@ chrome.extension.sendMessage({}, function (response) {
         (document.getElementById('wrapper')).appendChild(iframe);
     }
 });
-
