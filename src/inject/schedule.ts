@@ -6,6 +6,7 @@ chrome.runtime.sendMessage({}, function(res) {
       // Show schedule if on the correct page and schedule div doesn't yet exist
       if (
         document.getElementById("wrapper") === null &&
+        document.getElementsByTagName("h1").length > 2 &&
         document.getElementsByTagName("h1")[2].innerText === "Enrolled"
       ) {
         showSchedule();
