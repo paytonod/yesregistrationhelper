@@ -38,11 +38,6 @@ chrome.extension.sendMessage({}, function (response) {
         // add the wrapper to the page and the iframe to the wrapper
         document.body.appendChild(wrapper);
         (document.getElementById('wrapper')).appendChild(iframe);
-<<<<<<< HEAD
     };
 });
 
-=======
-    }
-});
->>>>>>> 340926cc3708f2f0c2454e108a6f9148194a1356
