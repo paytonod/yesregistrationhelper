@@ -10,12 +10,6 @@
     "128": "icons/favicon.png"
   },
   "default_locale": "en",
-  "background": {
-    "scripts": [
-      "src/bg/background.js"
-    ],
-    "persistent": false
-  },
   "options_page": "src/options_custom/index.html",
   "browser_action": {
     "default_icon": "icons/favicon.png",
@@ -36,7 +30,6 @@
       "https://acad.app.vanderbilt.edu/more/GetSchedule!input.action"
     ],
     "js": [
-      "src/inject/inject.js",
       "src/inject/schedule.js",
       "src/inject/scheduleContentScript.js"
     ]

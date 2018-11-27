@@ -5,6 +5,7 @@ chrome.extension.sendMessage({}, function (response) {
 
             // if the schedule is not already on the page, and you're on a YES page, add it
             if (document.getElementById("wrapper") === null &&
+                document.getElementsByTagName("h1")[2] !== undefined &&
                 document.getElementsByTagName("h1")[2].innerText === "Enrolled") {
                 showSchedule();
             }
