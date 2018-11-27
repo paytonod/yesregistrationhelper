@@ -37,6 +37,6 @@ chrome.extension.sendMessage({}, function (response) {
         // add the wrapper to the page and the iframe to the wrapper
         document.body.appendChild(wrapper);
         (document.getElementById('wrapper')).appendChild(iframe);
-    }
+    };
 });
 
