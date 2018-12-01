@@ -1,7 +1,7 @@
-const { expect } = require("chai");
+const { expect } = require('chai');
 
-describe("sample test", function() {
-  it("should work", function() {
+describe('sample test', () => {
+  it('should work', () => {
     expect(true).to.be.true;
   });
 });
