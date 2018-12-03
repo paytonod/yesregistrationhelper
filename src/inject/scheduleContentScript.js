@@ -23,7 +23,7 @@ window.onload = function() {
 
                 let nextButton = iframe.contentDocument.getElementById("yui-pg0-0-next-link16");
                 //click through page
-                if (nextButton && !alertShown) {
+                if (nextButton) {
 
                     setInterval(function () {
                         nextButton.click();
