@@ -1,20 +1,5 @@
-chrome.extension.sendMessage({}, (response) => {
-  const readyStateCheckInterval = setInterval(() => {
-    if (document.readyState === 'complete') {
-      clearInterval(readyStateCheckInterval);
-
-      // if the schedule is not already on the page, and you're on a YES page, add it
-      if (
-        document.getElementById('wrapper') === null
-        && document.getElementsByTagName('h1')[2] !== undefined
-        && document.getElementsByTagName('h1')[2].innerText === 'Enrolled'
-      ) {
-        showSchedule();
-      }
-    }
-  }, 10);
-
-  let showSchedule = () => {
+chrome.extension.sendMessage({}, () => {
+  const showSchedule = () => {
     // create a div to hold the schedule
     const wrapper = document.createElement('div');
 
@@ -41,4 +26,19 @@ chrome.extension.sendMessage({}, (response) => {
     document.body.appendChild(wrapper);
     document.getElementById('wrapper').appendChild(iframe);
   };
+
+  const readyStateCheckInterval = setInterval(() => {
+    if (document.readyState === 'complete') {
+      clearInterval(readyStateCheckInterval);
+
+      // if the schedule is not already on the page, and you're on a YES page, add it
+      if (
+        document.getElementById('wrapper') === null
+        && document.getElementsByTagName('h1')[2] !== undefined
+        && document.getElementsByTagName('h1')[2].innerText === 'Enrolled'
+      ) {
+        showSchedule();
+      }
+    }
+  }, 10);
 });
