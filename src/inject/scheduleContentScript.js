@@ -1,4 +1,4 @@
-document.window.onload = () => {
+window.onload = () => {
   // Checks for right page
   if (document.getElementById('scheduleCarousel') != null) {
     // Creates and sets up hidden iframe
