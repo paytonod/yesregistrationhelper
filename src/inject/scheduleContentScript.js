@@ -146,17 +146,28 @@ window.onload = function() {
                                         
                                         let printText = className + " " + type + " action complete."
                                         console.log(printText);
-                                        alert(printText);
                                         
                                         //****Uncomment to Make Drop Happen */
-                                        //doc.getElementById("dropButton").click();
-                                        //doc.getElementsByClassName("yui-panel-container")[0].getElementsByClassName("buttons")[0].getElementById("yesButton").click();
+                                        doc.getElementById("dropButton").click();
+                                        let exists = doc.getElementsByClassName("yui-panel-container").length;
+                                        while (exists == 0){
+                                            exists = doc.getElementsByClassName("yui-panel-container").length;
+                                        }
 
+                                        setTimeout(function()
+                                        {
+                                            doc.getElementsByClassName("yui-panel-container")[0].getElementsByClassName("buttons")[0].getElementsByClassName("yui-button yui-push-button")[0].click();
+                                        }, 1000);
+                                        alert(printText);
                                         i+=len;
                                     }
                                 }
                             }
-                        }                          
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                            
+                        }
                     }
                 }
 
