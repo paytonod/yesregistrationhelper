@@ -1,4 +1,4 @@
-window.onload = function () {
+document.window.onload = () => {
   // Checks for right page
   if (document.getElementById('scheduleCarousel') != null) {
     // Creates and sets up hidden iframe
@@ -11,16 +11,16 @@ window.onload = function () {
     iframe.setAttribute('name', 'site');
     document.body.appendChild(iframe);
 
-    // add buttons to the page
-    const readyStateCheckInterval = setInterval(() => {
-      DROP = 'DROP';
-      WAITLIST = 'WAITLIST-IF-FULL';
-      ENROLL = 'ENROLL';
+    // add buttons to the page - ready state check interval
+    setInterval(() => {
+      const DROP = 'DROP';
+      const WAITLIST = 'WAITLIST-IF-FULL';
+      const ENROLL = 'ENROLL';
 
       if (document.readyState === 'complete') {
         const nextButton = iframe.contentDocument.getElementById('yui-pg0-0-next-link16');
         // click through page
-        if (nextButton && !alertShown) {
+        if (nextButton) {
           setInterval(() => {
             nextButton.click();
           }, 3000);
@@ -33,7 +33,7 @@ window.onload = function () {
 
         // creates and styles button by taking in button color, text, and text color
         // returns button
-        function createButton(buttonColor, text, textColor) {
+        const createButton = (buttonColor, text, textColor) => {
           const newButton = document.createElement('BUTTON');
           const newText = document.createTextNode(text);
           newButton.appendChild(newText);
@@ -49,39 +49,39 @@ window.onload = function () {
           newButton.style.textAlign = 'center';
 
           return newButton;
-        }
+        };
 
         // adds button to the class button
-        function addButtons(button, classButton) {
+        const addButtons = (button, classButton) => {
           document.body.appendChild(button);
           classButton.appendChild(button);
 
-          button.onmouseover = function () {
+          button.onmouseover = () => {
             button.style.cursor = 'pointer';
           };
-        }
+        };
 
         // set up onclick actions
-        function setupAction(type, button) {
-          button.onclick = function (event) {
+        const setupAction = (type, button) => {
+          button.onclick = (event) => {
             // stop class info popup
             event.stopPropagation();
 
             // message
-            console.log('clicked to ' + type + '!');
+            console.log(`clicked to ${type}!`);
             const classNum = button.parentElement.id.split('_')[2];
 
             // make sure page loaded
             const list = iframe.contentDocument.getElementById('enrolledClassSections');
             if (
               list == null
-              || (list != null && list.getElementsByClassName('classSectionTableTag').length == 0)
+              || (list != null && list.getElementsByClassName('classSectionTableTag').length === 0)
             ) {
               alert('Try again in a moment.');
             } else {
-              if (type != DROP) {
+              if (type !== DROP) {
                 for (
-                  var i = 0,
+                  let i = 0,
                     len = iframe.contentDocument
                       .getElementById('StudentCartList_div')
                       .getElementsByClassName('classTable').length;
@@ -98,18 +98,16 @@ window.onload = function () {
                     .getElementsByClassName('classTable')
                     [i].getElementsByClassName('classSelection')[0];
 
-                  // console.log(classSel);
-
-                  if (classSel.children[0].value == classNum) {
+                  if (classSel.children[0].value === classNum) {
                     // update to choose waitlist
 
                     classSel.childNodes[1].removeAttribute('disabled');
                     classSel.childNodes[3].removeAttribute('disabled');
 
-                    buttonText = classSel.childNodes[5].firstChild.firstChild.firstChild;
+                    const buttonText = classSel.childNodes[5].firstChild.firstChild.firstChild;
                     buttonText.textContent = 'E▼';
 
-                    if (type == WAITLIST) {
+                    if (type === WAITLIST) {
                       classSel.childNodes[3].value = 'true';
                       buttonText.textContent = 'W▼';
                     }
@@ -124,8 +122,7 @@ window.onload = function () {
                     i += len;
                   }
                 }
-              } // type == DROP
-              else {
+              } else {
                 const ifr = document.getElementById('listPage');
                 const doc = ifr.contentDocument ? ifr.contentDocument : ifr.contentWindow.document;
                 const classList = doc
@@ -133,7 +130,7 @@ window.onload = function () {
                   .getElementsByClassName('classSectionTableTag');
 
                 // drop class
-                for (var i = 0, len = classList.item(0).children.length; i < len; i++) {
+                for (let i = 0, len = classList.item(0).children.length; i < len; i++) {
                   const className = classList
                     .item(0)
                     .children.item(i)
@@ -143,7 +140,7 @@ window.onload = function () {
                     .children.item(i)
                     .getElementsByClassName('classRow');
 
-                  if (classSel[0].children.item(1).id.split('_')[1] == classNum) {
+                  if (classSel[0].children.item(1).id.split('_')[1] === classNum) {
                     classSel[0].children
                       .item(0)
                       .getElementsByClassName('checkBoxDiv')[0]
@@ -155,7 +152,7 @@ window.onload = function () {
                     //* ***Uncomment to Make Drop Happen */
                     doc.getElementById('dropButton').click();
                     let exists = doc.getElementsByClassName('yui-panel-container').length;
-                    while (exists == 0) {
+                    while (exists === 0) {
                       exists = doc.getElementsByClassName('yui-panel-container').length;
                     }
 
@@ -176,10 +173,10 @@ window.onload = function () {
               }, 1000);
             }
           };
-        }
+        };
 
         // CART CLASSES: creates and sets up actions for classes in cart
-        for (var i = 0, len = cartButtons.length; i < len; i++) {
+        for (let i = 0, len = cartButtons.length; i < len; i++) {
           // creates a waitlist and enroll button per class
           const enrollButton = createButton('green', 'E', 'white');
           const waitlistButton = createButton('yellow', 'W', 'black');
@@ -196,7 +193,7 @@ window.onload = function () {
         }
 
         // ENROLLED CLASSES: creates and sets up actions for enrolled classes
-        for (var i = 0, len = enrollButtons.length; i < len; i++) {
+        for (let i = 0, len = enrollButtons.length; i < len; i++) {
           const dropButton = createButton('red', '--', 'white');
 
           // add drop button
@@ -209,7 +206,7 @@ window.onload = function () {
         }
 
         // WAITLISTED CLASSES: creates and sets up actions for waitlisted classes
-        for (var i = 0, len = waitButtons.length; i < len; i++) {
+        for (let i = 0, len = waitButtons.length; i < len; i++) {
           const dropButton = createButton('red', '--', 'white');
 
           // add drop button
