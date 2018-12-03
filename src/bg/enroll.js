@@ -13,9 +13,10 @@ for (let i = 0; i < classes.length; i++) {
   // grab the children of the current class
   const sub = classSelection.childNodes;
   try {
-    // children [1] and [3] are inputs to enroll and/or waitList in the class; [5] is the 3rd parent of the ▼
-    // dropdown text.
-    // Clicking E▼ removes the "disabled" attribute from both, but does NOT toggle the waitListHidden input true.
+    // children [1] and [3] are inputs to enroll and/or waitList in the class; [5] is the
+    // 3rd parent of the ▼ dropdown text.
+    // Clicking E▼ removes the "disabled" attribute from both, but does
+    // NOT toggle the waitListHidden input true.
     // Clicking W▼ does the same, but DOES toggle the waitListHidden input true.
     // By doing both, we enroll but also waitlist if the class if full.
     sub[1].removeAttribute('disabled');
