@@ -6,8 +6,8 @@ window.onload = function() {
         //Creates and sets up hidden iframe
         let iframe = document.createElement("IFRAME"); 
         iframe.src = "https://acad.app.vanderbilt.edu/more/SearchClasses!input.action";
-        iframe.style.height = "0px";
-        iframe.style.width = "0px";
+        iframe.style.height = "500px";
+        iframe.style.width = "500px";
         iframe.style.border = "0px";
         iframe.setAttribute("id", "listPage");
         iframe.setAttribute("name", "site")
@@ -102,7 +102,7 @@ window.onload = function() {
                                         classSel.childNodes[1].removeAttribute("disabled");
                                         classSel.childNodes[3].removeAttribute("disabled");
                                         
-                                        buttonText = classSel.childNodes[5].firstChild.firstChild.firstChild;
+                                        let buttonText = classSel.childNodes[5].firstChild.firstChild.firstChild;
                                         buttonText.textContent = "E▼";
                                         
 
@@ -111,9 +111,9 @@ window.onload = function() {
                                             buttonText.textContent = "W▼";
                                         }
 
-                                        let printText = className + " " + type + " action complete."
+                                        let printText = className + " " + type + " action initiated."
                                         console.log(printText);
-                                        alert(printText);
+                                        //alert(printText);
                                         
                                         //click submit
                                         iframe.contentDocument.getElementById("enrollButton-button").click();
@@ -139,29 +139,45 @@ window.onload = function() {
                                         
                                         classSel[0].children.item(0).getElementsByClassName("checkBoxDiv")[0].children.item(0).checked = true;
                                         
-                                        let printText = className + " " + type + " action complete."
+                                        let printText = className + " " + type + " action initiated."
                                         console.log(printText);
+                                        //alert(printText);
                                         
-                                        //****Uncomment to Make Drop Happen */
                                         doc.getElementById("dropButton").click();
                                         let exists = doc.getElementsByClassName("yui-panel-container").length;
                                         while (exists == 0){
                                             exists = doc.getElementsByClassName("yui-panel-container").length;
                                         }
 
-                                        setTimeout(function()
+                                        setInterval(function()
                                         {
-                                            doc.getElementsByClassName("yui-panel-container")[0].getElementsByClassName("buttons")[0].getElementsByClassName("yui-button yui-push-button")[0].click();
-                                        }, 1000);
-                                        alert(printText);
+                                           try {
+                                            document.getElementById("listPage").contentDocument.getElementsByClassName("yui-panel-container")[0].getElementsByClassName("buttons")[0].getElementsByClassName("yui-button yui-push-button")[0].click();
+                                           }
+                                           catch {}                  
+                                        }, 2000);
+                                        
                                         i+=len;
                                     }
                                 }
                             }
-                            setTimeout(function() {
-                                location.reload();
-                            }, 1000);
-                            
+
+                            // grab notification and send to chrome as alert
+                            setInterval(function() {
+                                if (iframe.contentDocument.getElementById("yui_notification_container") != null && iframe.contentDocument.getElementById("yui_notification_container").children.length != 0)
+                                {
+                                    for (let i = 0; i < iframe.contentDocument.getElementById("yui_notification_container").children.length; i++) {
+                                        if (iframe.contentDocument.getElementById("yui_notification_container").children[0].id != "smoke-notification-0"){
+                                            let alertText = iframe.contentDocument.getElementById("yui_notification_container").children[0].getElementsByClassName("text")[0].innerText;
+                                            iframe.contentDocument.getElementById("yui_notification_container").removeChild(iframe.contentDocument.getElementById("yui_notification_container").children[0]);
+                                            if (!alertText.toLowerCase().includes("not")){
+                                                location.reload();
+                                            }
+                                            alert(alertText);
+                                        } 
+                                    }
+                                }
+                            }, 100); 
                         }
                     }
                 }
@@ -218,3 +234,4 @@ window.onload = function() {
         }, 10);
     }
 }
+
