@@ -5,28 +5,98 @@
  * testers for this software do find the following tests comprehensive and appropriate.
  */
 
+const puppeteer = require('puppeteer');
 const { expect } = require('chai');
+const _ = require('lodash');
 
-describe('iframe exists', () => {
-  it('should work', () => {
-    expect(true).to.be.true;
+const globalVariables = _.pick(global, ['browser', 'expect']);
+
+// Puppeteer options
+const opts = {
+  headless: false,
+  slowMo: 100,
+  timeout: 10000,
+};
+
+// Expose variables
+before(async () => {
+  global.expect = expect;
+  global.browser = await puppeteer.launch(opts);
+});
+
+// Close browser and reset global variables
+after(() => {
+  browser.close();
+  global.browser = globalVariables.browser;
+  global.expect = globalVariables.expect;
+});
+
+// Test the schedule page
+describe('Schedule page - button existence', () => {
+  let page;
+
+  before(async () => {
+    page = await browser.newPage();
+    await page.goto('http://localhost:8080');
+  });
+
+  after(async () => {
+    await page.close();
+  });
+
+  it('should have the correct page title', async () => {
+    expect(await page.title()).to.eql('Puppeteer Mocha');
+  });
+
+  it('should have a heading', async () => {
+    const HEADING_SELECTOR = 'h1';
+
+    await page.waitFor(HEADING_SELECTOR);
+    const heading = await page.$eval(HEADING_SELECTOR, heading => heading.innerText);
+
+    expect(heading).to.eql('Page Title');
+  });
+
+  it('should have a single content section', async () => {
+    const BODY_SELECTOR = '.main-content';
+
+    await page.waitFor(BODY_SELECTOR);
+
+    expect(await page.$$(BODY_SELECTOR)).to.have.lengthOf(1);
   });
 });
 
-describe('red buttons on schedule page exist', () => {
-  it('should work', () => {
-    expect(true).to.be.true;
-  });
-});
+// Test any other page
+describe('Generic YES page - iframe existence', () => {
+  let page;
 
-describe('class is actually removed', () => {
-  it('should work', () => {
-    expect(true).to.be.true;
+  before(async () => {
+    page = await browser.newPage();
+    await page.goto('http://localhost:8080');
   });
-});
 
-describe('class is actually added', () => {
-  it('should work', () => {
-    expect(true).to.be.true;
+  after(async () => {
+    await page.close();
+  });
+
+  it('should have the correct page title', async () => {
+    expect(await page.title()).to.eql('Puppeteer Mocha');
+  });
+
+  it('should have a heading', async () => {
+    const HEADING_SELECTOR = 'h1';
+
+    await page.waitFor(HEADING_SELECTOR);
+    const heading = await page.$eval(HEADING_SELECTOR, heading => heading.innerText);
+
+    expect(heading).to.eql('Page Title');
+  });
+
+  it('should have a single content section', async () => {
+    const BODY_SELECTOR = '.main-content';
+
+    await page.waitFor(BODY_SELECTOR);
+
+    expect(await page.$$(BODY_SELECTOR)).to.have.lengthOf(1);
   });
 });
