@@ -18,18 +18,18 @@ const opts = {
   timeout: 10000,
 };
 
-// Expose variables
-before(async () => {
-  global.expect = expect;
-  global.browser = await puppeteer.launch(opts);
-});
+// // Expose variables
+// before(async () => {
+//   global.expect = expect;
+//   global.browser = await puppeteer.launch(opts);
+// });
 
-// Close browser and reset global variables
-after(() => {
-  browser.close();
-  global.browser = globalVariables.browser;
-  global.expect = globalVariables.expect;
-});
+// // Close browser and reset global variables
+// after(() => {
+//   browser.close();
+//   global.browser = globalVariables.browser;
+//   global.expect = globalVariables.expect;
+// });
 
 // Test the schedule page
 describe('Schedule page - button existence', () => {
@@ -37,7 +37,7 @@ describe('Schedule page - button existence', () => {
 
   before(async () => {
     page = await browser.newPage();
-    await page.goto('http://localhost:8080');
+    await page.goto('https://acad.app.vanderbilt.edu/more/GetSchedule!input.action');
   });
 
   after(async () => {
