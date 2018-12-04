@@ -160,24 +160,7 @@ window.onload = function() {
                                         i+=len;
                                     }
                                 }
-                            }
-
-                            // grab notification and send to chrome as alert
-                            setInterval(function() {
-                                if (iframe.contentDocument.getElementById("yui_notification_container") != null && iframe.contentDocument.getElementById("yui_notification_container").children.length != 0)
-                                {
-                                    for (let i = 0; i < iframe.contentDocument.getElementById("yui_notification_container").children.length; i++) {
-                                        if (iframe.contentDocument.getElementById("yui_notification_container").children[0].id != "smoke-notification-0"){
-                                            let alertText = iframe.contentDocument.getElementById("yui_notification_container").children[0].getElementsByClassName("text")[0].innerText;
-                                            iframe.contentDocument.getElementById("yui_notification_container").removeChild(iframe.contentDocument.getElementById("yui_notification_container").children[0]);
-                                            if (!alertText.toLowerCase().includes("not")){
-                                                location.reload();
-                                            }
-                                            alert(alertText);
-                                        } 
-                                    }
-                                }
-                            }, 100); 
+                            } 
                         }
                     }
                 }
@@ -230,6 +213,23 @@ window.onload = function() {
                     //action once clicked - print to console and drop
                     setupAction(DROP, dropButton);                 
                 }
+
+                // grab notification and send to chrome as alert
+                setInterval(function() {
+                    if (iframe.contentDocument.getElementById("yui_notification_container") != null && iframe.contentDocument.getElementById("yui_notification_container").children.length != 0)
+                    {
+                        for (let i = 0; i < iframe.contentDocument.getElementById("yui_notification_container").children.length; i++) {
+                            if (iframe.contentDocument.getElementById("yui_notification_container").children[0].id != "smoke-notification-0"){
+                                let alertText = iframe.contentDocument.getElementById("yui_notification_container").children[0].getElementsByClassName("text")[0].innerText;
+                                iframe.contentDocument.getElementById("yui_notification_container").removeChild(iframe.contentDocument.getElementById("yui_notification_container").children[0]);
+                                if (!alertText.toLowerCase().includes("not")){
+                                    location.reload();
+                                }
+                                alert(alertText);
+                            } 
+                        }
+                    }
+                }, 100);
             }
         }, 10);
     }
