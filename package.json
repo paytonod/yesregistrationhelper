@@ -10,7 +10,9 @@
     "chai": "^4.1.2",
     "eslint-config-airbnb": "^17.1.0",
     "lodash": "^4.17.11",
-    "puppeteer": "^0.13.0"
+    "puppeteer": "^0.13.0",
+    "request": "^2.88.0",
+    "superagent": "^4.0.0"
   },
   "devDependencies": {
     "eslint": "^5.9.0",
