@@ -222,9 +222,7 @@ window.onload = function() {
                             if (iframe.contentDocument.getElementById("yui_notification_container").children[0].id != "smoke-notification-0"){
                                 let alertText = iframe.contentDocument.getElementById("yui_notification_container").children[0].getElementsByClassName("text")[0].innerText;
                                 iframe.contentDocument.getElementById("yui_notification_container").removeChild(iframe.contentDocument.getElementById("yui_notification_container").children[0]);
-                                if (!alertText.toLowerCase().includes("not")){
-                                    location.reload();
-                                }
+                                location.reload();
                                 alert(alertText);
                             } 
                         }
