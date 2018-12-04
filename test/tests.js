@@ -6,6 +6,7 @@
  */
 
 const puppeteer = require('puppeteer');
+// const request = require('superagent');
 const { expect } = require('chai');
 const _ = require('lodash');
 
@@ -16,32 +17,22 @@ const opts = {
   headless: false,
   slowMo: 100,
   timeout: 10000,
+  args: [
+    '--disable-extensions-except=yesregistrationhelper/',
+    '--load-extension=yesregistrationhelper/',
+  ],
 };
-
-// // Expose variables
-// before(async () => {
-//   global.expect = expect;
-//   global.browser = await puppeteer.launch(opts);
-// });
-
-// // Close browser and reset global variables
-// after(() => {
-//   browser.close();
-//   global.browser = globalVariables.browser;
-//   global.expect = globalVariables.expect;
-// });
 
 // Test the schedule page
 describe('Schedule page - button existence', () => {
   let page;
 
   before(async () => {
+    this.enableTimeouts(false);
+    global.expect = expect;
+    global.browser = await puppeteer.launch(opts);
     page = await browser.newPage();
     await page.goto('https://acad.app.vanderbilt.edu/more/GetSchedule!input.action');
-  });
-
-  after(async () => {
-    await page.close();
   });
 
   it('should have the correct page title', async () => {
@@ -63,6 +54,13 @@ describe('Schedule page - button existence', () => {
     await page.waitFor(BODY_SELECTOR);
 
     expect(await page.$$(BODY_SELECTOR)).to.have.lengthOf(1);
+  });
+
+  after(async () => {
+    await page.close();
+    browser.close();
+    global.browser = globalVariables.browser;
+    global.expect = globalVariables.expect;
   });
 });
 
@@ -75,10 +73,6 @@ describe('Generic YES page - iframe existence', () => {
     await page.goto('http://localhost:8080');
   });
 
-  after(async () => {
-    await page.close();
-  });
-
   it('should have the correct page title', async () => {
     expect(await page.title()).to.eql('Puppeteer Mocha');
   });
@@ -98,5 +92,9 @@ describe('Generic YES page - iframe existence', () => {
     await page.waitFor(BODY_SELECTOR);
 
     expect(await page.$$(BODY_SELECTOR)).to.have.lengthOf(1);
+  });
+
+  after(async () => {
+    await page.close();
   });
 });
