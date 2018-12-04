@@ -1,6 +1,6 @@
 {
   "name": "YES Registration Helper",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "manifest_version": 2,
   "description": "This extension helps Vanderbilt students by displaying their schedule alongside their class list and classes searches in YES registration.",
   "homepage_url": "http://github.com/paytonod/yesregistrationhelper",
@@ -11,9 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [
-      "src/bg/background.js"
-    ],
+    "scripts": ["src/bg/background.js"],
     "persistent": false
   },
   "options_page": "src/options_custom/index.html",
@@ -30,14 +28,13 @@
     "http://*/",
     "https://*/"
   ],
-  "content_scripts": [{
-    "matches": [
-      "https://acad.app.vanderbilt.edu/*",
-      "https://acad.app.vanderbilt.edu/more/GetSchedule!input.action"
-    ],
-    "js": [
-      "src/inject/schedule.js",
-      "src/inject/scheduleContentScript.js"
-    ]
-  }]
+  "content_scripts": [
+    {
+      "matches": [
+        "https://acad.app.vanderbilt.edu/*",
+        "https://acad.app.vanderbilt.edu/more/GetSchedule!input.action"
+      ],
+      "js": ["src/inject/schedule.js", "src/inject/scheduleContentScript.js"]
+    }
+  ]
 }
