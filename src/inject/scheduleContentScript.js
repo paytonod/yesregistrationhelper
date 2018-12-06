@@ -11,7 +11,7 @@ window.onload = () => {
     iframe.setAttribute('name', 'site');
     document.body.appendChild(iframe);
 
-    // add buttons to the page - ready state check interval
+    // add buttons to the page
     setInterval(() => {
       const DROP = 'DROP';
       const WAITLIST = 'WAITLIST-IF-FULL';
@@ -68,7 +68,7 @@ window.onload = () => {
             event.stopPropagation();
 
             // message
-            console.log(`clicked to ${type}!`);
+            console.log('clicked to ' + type + '!');
             const classNum = button.parentElement.id.split('_')[2];
 
             // make sure page loaded
@@ -78,99 +78,101 @@ window.onload = () => {
               || (list != null && list.getElementsByClassName('classSectionTableTag').length === 0)
             ) {
               alert('Try again in a moment.');
-            } else {
-              if (type !== DROP) {
-                for (
-                  let i = 0,
-                    len = iframe.contentDocument
-                      .getElementById('StudentCartList_div')
-                      .getElementsByClassName('classTable').length;
-                  i < len;
-                  i++
-                ) {
-                  // get information
-                  const classes = iframe.contentDocument.getElementById('StudentCartList_div');
-                  const className = iframe.contentDocument
-                    .getElementById('studentCart')
-                    .getElementsByClassName('classSectionTableTag')[0]
-                    .children[i].getElementsByClassName('classHeader')[0].innerText;
-                  const classSel = classes
-                    .getElementsByClassName('classTable')
-                    [i].getElementsByClassName('classSelection')[0];
+            } else if (type !== DROP) {
+              for (
+                let i = 0,
+                  len = iframe.contentDocument
+                    .getElementById('StudentCartList_div')
+                    .getElementsByClassName('classTable').length;
+                i < len;
+                i++
+              ) {
+                // get information
+                const classes = iframe.contentDocument.getElementById('StudentCartList_div');
+                const className = iframe.contentDocument
+                  .getElementById('studentCart')
+                  .getElementsByClassName('classSectionTableTag')[0]
+                  .children[i].getElementsByClassName('classHeader')[0].innerText;
+                const classSel = classes
+                  .getElementsByClassName('classTable')
+                  [i].getElementsByClassName('classSelection')[0];
 
-                  if (classSel.children[0].value === classNum) {
-                    // update to choose waitlist
+                // console.log(classSel);
 
-                    classSel.childNodes[1].removeAttribute('disabled');
-                    classSel.childNodes[3].removeAttribute('disabled');
+                if (classSel.children[0].value === classNum) {
+                  // update to choose waitlist
 
-                    const buttonText = classSel.childNodes[5].firstChild.firstChild.firstChild;
-                    buttonText.textContent = 'E▼';
+                  classSel.childNodes[1].removeAttribute('disabled');
+                  classSel.childNodes[3].removeAttribute('disabled');
 
-                    if (type === WAITLIST) {
-                      classSel.childNodes[3].value = 'true';
-                      buttonText.textContent = 'W▼';
-                    }
+                  const buttonText = classSel.childNodes[5].firstChild.firstChild.firstChild;
+                  buttonText.textContent = 'E▼';
 
-                    const printText = `${className} ${type} action complete.`;
-                    console.log(printText);
-                    alert(printText);
-
-                    // click submit
-                    iframe.contentDocument.getElementById('enrollButton-button').click();
-
-                    i += len;
+                  if (type === WAITLIST) {
+                    classSel.childNodes[3].value = 'true';
+                    buttonText.textContent = 'W▼';
                   }
+
+                  const printText = `${className} ${type} action initiated.`;
+                  console.log(printText);
+                  // alert(printText);
+
+                  // click submit
+                  iframe.contentDocument.getElementById('enrollButton-button').click();
+
+                  i += len;
                 }
-              } else {
-                const ifr = document.getElementById('listPage');
-                const doc = ifr.contentDocument ? ifr.contentDocument : ifr.contentWindow.document;
-                const classList = doc
-                  .getElementById('enrolledClassSections')
-                  .getElementsByClassName('classSectionTableTag');
+              }
+            } else {
+              const ifr = document.getElementById('listPage');
+              const doc = ifr.contentDocument ? ifr.contentDocument : ifr.contentWindow.document;
+              const classList = doc
+                .getElementById('enrolledClassSections')
+                .getElementsByClassName('classSectionTableTag');
 
-                // drop class
-                for (let i = 0, len = classList.item(0).children.length; i < len; i++) {
-                  const className = classList
+              // drop class
+              for (let i = 0, len = classList.item(0).children.length; i < len; i++) {
+                const className = classList
+                  .item(0)
+                  .children.item(i)
+                  .getElementsByClassName('classHeader')[0].innerText;
+                const classSel = classList
+                  .item(0)
+                  .children.item(i)
+                  .getElementsByClassName('classRow');
+
+                if (classSel[0].children.item(1).id.split('_')[1] === classNum) {
+                  classSel[0].children
                     .item(0)
-                    .children.item(i)
-                    .getElementsByClassName('classHeader')[0].innerText;
-                  const classSel = classList
-                    .item(0)
-                    .children.item(i)
-                    .getElementsByClassName('classRow');
+                    .getElementsByClassName('checkBoxDiv')[0]
+                    .children.item(0).checked = true;
 
-                  if (classSel[0].children.item(1).id.split('_')[1] === classNum) {
-                    classSel[0].children
-                      .item(0)
-                      .getElementsByClassName('checkBoxDiv')[0]
-                      .children.item(0).checked = true;
+                  const printText = `${className} ${type} action initiated.`;
+                  console.log(printText);
+                  // alert(printText);
 
-                    const printText = `${className} ${type} action complete.`;
-                    console.log(printText);
+                  doc.getElementById('dropButton').click();
+                  let exists = doc.getElementsByClassName('yui-panel-container').length;
+                  while (exists === 0) {
+                    exists = doc.getElementsByClassName('yui-panel-container').length;
+                  }
 
-                    //* ***Uncomment to Make Drop Happen */
-                    doc.getElementById('dropButton').click();
-                    let exists = doc.getElementsByClassName('yui-panel-container').length;
-                    while (exists === 0) {
-                      exists = doc.getElementsByClassName('yui-panel-container').length;
-                    }
-
-                    setTimeout(() => {
-                      doc
-                        .getElementsByClassName('yui-panel-container')[0]
+                  setInterval(() => {
+                    try {
+                      document
+                        .getElementById('listPage')
+                        .contentDocument.getElementsByClassName('yui-panel-container')[0]
                         .getElementsByClassName('buttons')[0]
                         .getElementsByClassName('yui-button yui-push-button')[0]
                         .click();
-                    }, 1000);
-                    alert(printText);
-                    i += len;
-                  }
+                    } catch (err) {
+                      console.log(err);
+                    }
+                  }, 2000);
+
+                  i += len;
                 }
               }
-              setTimeout(() => {
-                location.reload();
-              }, 1000);
             }
           };
         };
@@ -217,6 +219,38 @@ window.onload = () => {
           // action once clicked - print to console and drop
           setupAction(DROP, dropButton);
         }
+
+        // grab notification and send to chrome as alert
+        setInterval(() => {
+          if (
+            iframe.contentDocument.getElementById('yui_notification_container') != null
+            && iframe.contentDocument.getElementById('yui_notification_container').children.length
+              !== 0
+          ) {
+            for (
+              let i = 0;
+              i
+              < iframe.contentDocument.getElementById('yui_notification_container').children.length;
+              i++
+            ) {
+              if (
+                iframe.contentDocument.getElementById('yui_notification_container').children[0]
+                  .id !== 'smoke-notification-0'
+              ) {
+                const alertText = iframe.contentDocument
+                  .getElementById('yui_notification_container')
+                  .children[0].getElementsByClassName('text')[0].innerText;
+                iframe.contentDocument
+                  .getElementById('yui_notification_container')
+                  .removeChild(
+                    iframe.contentDocument.getElementById('yui_notification_container').children[0],
+                  );
+                location.reload();
+                alert(alertText);
+              }
+            }
+          }
+        }, 100);
       }
     }, 10);
   }
