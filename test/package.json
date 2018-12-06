@@ -1,0 +1,19 @@
+{
+  "name": "mocha-es6-modules",
+  "version": "0.1.0",
+  "scripts": {
+    "server": "http-server . -c-1",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "http-server": "^0.10.0",
+    "script-loader": "^0.7.2",
+    "sinon-chrome": "^2.3.2",
+    "webpack": "^3.10.0"
+  },
+  "main": "test.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
