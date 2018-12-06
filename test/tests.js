@@ -34,17 +34,17 @@ before(async () => {
 
 // Test the schedule page
 describe('Schedule page', () => {
-  // let page;
-  // before(async () => {
-  //   page = await browser.newPage();
-  //   await page.goto('https://acad.app.vanderbilt.edu/more/SearchClasses!input.action');
-  // });
+  let page;
+  before(async () => {
+    page = await global.browser.newPage();
+    await page.goto('https://acad.app.vanderbilt.edu/more/SearchClasses!input.action');
+  });
   it('should work', () => {
     expect(true).to.be.true;
   });
-  // after(async () => {
-  //   await page.close();
-  // });
+  after(async () => {
+    await page.close();
+  });
   // it('should have the correct page title', async () => {
   //   expect(await page.title()).to.eql('Puppeteer Mocha');
   // });
