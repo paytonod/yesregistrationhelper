@@ -20,11 +20,11 @@ This project utilizes ES6 - as such, any and all optimizations offered by the ES
 
 ## Testing
 
-At a high-level, testing this application will involve making sure DOM manipulations are consistent between web pages. In other words, we want to determine that the visual schedule updates synchronously with changes to a class cart - testing is mainly done by validing existence of DOM elements.
+At a high-level, testing this application will involve making sure DOM manipulations are consistent between web pages. In other words, we want to determine that the visual schedule updates synchronously with changes to a class cart - testing is mainly done by validing existence of DOM elements in the client UI.
 
 Testing was completed using [Chai](https://github.com/chaijs/chai), [Sinon-Chrome](https://github.com/acvetkov/sinon-chrome), and [Cheerio](https://github.com/cheeriojs/cheerio).
 
-To run tests, do the following:
+To run the tests, execute the following from your favorite terminal:
 
 ```
 cd test
