@@ -1,0 +1,3946 @@
+<html class="gr__acad_app_vanderbilt_edu"><head>
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+
+
+<title>Student Registration / Student Schedule</title>
+
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
+<link rel="stylesheet" type="text/css" href="css/YuiDependencies.css">
+
+<link rel="stylesheet" type="text/css" href="js/yowl/lib/yowl.css">
+
+
+<link rel="stylesheet" type="text/css" href="css/CheckboxButtonTag.css">
+<link rel="stylesheet" type="text/css" href="css/ClassSectionTableTag.css">
+<link rel="stylesheet" type="text/css" href="css/ClassScheduleTag.css">
+<link rel="stylesheet" type="text/css" href="css/RoundedDialogTag.css">
+<link rel="stylesheet" type="text/css" href="css/GetClassSectionDetail.css">
+<link rel="stylesheet" type="text/css" href="css/ContextMenu.css">
+<link rel="stylesheet" type="text/css" href="css/Menu.css">
+<link rel="stylesheet" type="text/css" href="css/Panel.css">
+<link rel="stylesheet" type="text/css" href="css/MoreGlobal.css">
+<link rel="stylesheet" type="text/css" href="css/MultiSelectBox.css">
+<link rel="stylesheet" type="text/css" href="css/StudentHeader.css">
+
+
+<link rel="alternate stylesheet" type="text/css" title="printable" href="css/MorePrint.css">
+<link rel="stylesheet" type="text/css" href="css/MorePrint.css" media="print">
+	
+	<!-- Google Analytics -->
+   <script async="" src="//www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="js/jquery.min.js"></script>
+   <script type="text/javascript" src="js/mis-jquery-namespace.js"></script>
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- This is Google Analytics Code -->
+
+
+
+
+
+
+   
+
+
+
+   
+
+
+
+
+
+   
+   
+   
+   <script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+       
+          var misns = jQuery.namespace("mis");
+          var ns = jQuery.namespace("googleAnalytics", misns);
+       
+          
+            
+            
+               
+               ga('create', 'UA-53416308-4', 'auto');
+               if( ns.debug ) {
+                  console.log("ga:createTracker - " + 'UA-53416308-4' );
+               }
+            
+         
+       
+          ns.sendPageView = function() {
+             var pgLocation =  ns.getPageLocation( '' , false , '' ) ;
+             if( this.debug ){
+                console.log("ga:pageview - " + pgLocation );
+             }
+             
+             ga('send', 'pageview' , pgLocation );
+          };
+          
+          ns.registerGoogleAnalyticsEventSource = function registerGoogleAnalyticsEventSource( eventSource , eventType , eventLabel , pageLocation , omitQueryParams , filterQueryParams  ){
+             var eventData = { ns : ns , eventLabel : eventLabel , pageLocation : pageLocation , omitQueryParams : omitQueryParams , filterQueryParams : filterQueryParams } ;           
+             jQuery( eventSource ).bind( eventType , eventData ,  function( event ){
+                           var tagName = this.tagName.toLowerCase();
+                           var pageLocation = event.data.ns.getPageLocation( event.data.pageLocation , event.data.omitQueryParams , event.data.filterQueryParams ) ;
+                           var eventLabel = event.data.eventLabel;
+                           
+                           if( tagName == 'input' && jQuery(this).attr("type") == "button"  ){
+                              eventLabel = eventLabel ? eventLabel : jQuery(this).val() ;
+                              tagName = 'button';
+                           } 
+                           else if ( tagName == 'button' ) {
+                              eventLabel = eventLabel ? eventLabel : jQuery(this).html().trim() ;
+                           }
+                           else {
+                              eventLabel = eventLabel ? eventLabel : jQuery(this).attr("name") ;
+                           }
+                           
+                           if( event.data.ns.debug ){
+                              console.log("ga:event - type[" + event.type +"] label[" + eventLabel + "] category[" + tagName + "] pageLocation["  + pageLocation + "]" );
+                           }
+                           ga('send', 'event', tagName , event.type , eventLabel , {'page': pageLocation } );
+                        } );
+               };
+        
+          ns.getPageLocation = function getPageLocation( pageLocation , omitQueryParams , filterQueryParams ) {
+             if( pageLocation && pageLocation.length > 0 ) {
+                return pageLocation;
+             } else if ( omitQueryParams ) {
+                return window.location.pathname;
+             } else {
+                if( !filterQueryParams ) {
+                   filterQueryParams = [];
+                } else {
+                   filterQueryParams = filterQueryParams.split(",");
+                }
+                
+                filterQueryParams.push( "emplid" , "firstName" , "lastName" , "boid", "commodoreId", "cid", "commodoreIdToLoad", "corpId" ); // predefined list of query params to filter always
+                var filteredQuery = this.filterQueryParamsFromUrl( filterQueryParams );
+                return window.location.pathname +  filteredQuery;
+             }
+          };
+          
+          ns.filterQueryParamsFromUrl = function filterQueryParamsFromUrl( filterQueryParams ) {
+             var query = location.search.substr(1);
+             if ( query && query.length > 0 ){
+                var data = query.split("&");
+                var tokenz = [] ;
+                for(var i=0; i < data.length; i++) {
+                  var item = data[i].split("=");
+                  var key = item[0] ;
+                  if ( jQuery.inArray( key , filterQueryParams ) < 0 ) {
+                     var value = item[1] ? item[1] : "";
+                     tokenz.push( key + "=" + value );
+                  }
+                }
+                
+                data = tokenz.join("&");
+                query = "";
+                if( data && data.length > 0 ) {
+                   query = "?" + data;
+                }
+             }
+            return query;
+           };
+          
+          jQuery(document).ready(function(){
+             ns.sendPageView();
+          });
+          
+       </script>
+     
+   
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="css/NiftyCorners.css" media="screen"><style type="text/css">
+@font-face {
+  font-weight: 400;
+  font-style:  normal;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.useloom.com/assets/fonts/inter/Inter-UI-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-weight: 400;
+  font-style:  italic;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.useloom.com/assets/fonts/inter/Inter-UI-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-weight: 500;
+  font-style:  normal;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.useloom.com/assets/fonts/inter/Inter-UI-Medium.woff2') format('woff2');
+}
+@font-face {
+  font-weight: 500;
+  font-style:  italic;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.useloom.com/assets/fonts/inter/Inter-UI-MediumItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-weight: 700;
+  font-style:  normal;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.useloom.com/assets/fonts/inter/Inter-UI-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-weight: 700;
+  font-style:  italic;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.useloom.com/assets/fonts/inter/Inter-UI-BoldItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-weight: 900;
+  font-style:  normal;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.useloom.com/assets/fonts/inter/Inter-UI-Black.woff2') format('woff2');
+}
+@font-face {
+  font-weight: 900;
+  font-style:  italic;
+  font-family: 'Inter-Loom';
+
+  src: url('https://cdn.useloom.com/assets/fonts/inter/Inter-UI-BlackItalic.woff2') format('woff2');
+}</style><link type="text/css" rel="stylesheet" href="css/NiftyCorners.css" media="screen"></head>
+
+
+
+
+
+<body onload="" data-gr-c-s-loaded="true" style=""><iframe id="_yuiResizeMonitor" title="Text Resize Monitor" tabindex="-1" role="presentation" style="position: absolute; visibility: visible; background-color: transparent; border-width: 0px; width: 2em; height: 2em; left: 0px; top: -27px;"></iframe>
+
+	<script type="text/javascript" src="js/yowl/lib/yowl.js"></script>
+	<script type="text/javascript" src="js/yowl/lib/display-yui.js"></script>
+	<!-- Fix png alpha transparency for IE 5.5 and 6. -->
+	<!--[if lt IE 7]>
+      <script defer type="text/javascript" src="javascript/pngfix.js"></script>
+   <![endif]-->
+	<script type="text/javascript" src="/more/struts/xhtml/validation.js"></script>
+
+	
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+	
+	
+	
+
+	 
+   <script type="text/javascript" src="yui/build/yahoo/yahoo-min.js"></script>
+   <script type="text/javascript" src="yui/build/dom/dom-min.js"></script>
+   <script type="text/javascript" src="yui/build/event/event-min.js"></script>
+   <script type="text/javascript" src="yui/build/element/element-min.js"></script>
+   <script type="text/javascript" src="yui/build/animation/animation-min.js"></script>
+   <script type="text/javascript" src="yui/build/connection/connection-min.js"></script>
+   <script type="text/javascript" src="yui/build/get/get-min.js"></script>
+   <script type="text/javascript" src="yui/build/datasource/datasource-min.js"></script>
+   <script type="text/javascript" src="yui/build/json/json-min.js"></script>
+   <script type="text/javascript" src="yui/build/autocomplete/autocomplete-min.js"></script>
+   <script type="text/javascript" src="yui/build/dragdrop/dragdrop-min.js"></script>
+   <script type="text/javascript" src="yui/build/logger/logger-min.js"></script>
+   <script type="text/javascript" src="yui/build/resize/resize-min.js"></script>
+   <script type="text/javascript" src="yui/build/selector/selector-min.js"></script>
+   <script type="text/javascript" src="yui/build/container/container-min.js"></script>
+   <script type="text/javascript" src="yui/build/menu/menu-min.js"></script>
+   <script type="text/javascript" src="yui/build/button/button-min.js"></script>
+   <script type="text/javascript" src="yui/build/carousel/carousel-min.js"></script>
+   <script type="text/javascript" src="yui/build/layout/layout-min.js"></script>
+   <script type="text/javascript" src="yui/build/paginator/paginator-min.js"></script>
+   <script type="text/javascript" src="yui/build/slider/slider-min.js"></script>
+   <script type="text/javascript" src="yui/build/calendar/calendar-min.js"></script>
+   <script type="text/javascript" src="yui/build/editor/editor-min.js"></script>
+	<script type="text/javascript">
+     //YAHOO.util.Event.throwErrors = true
+   </script>
+
+	
+	<script type="text/javascript" src="js/davglass/toolseffects-min.js"></script>
+   <script type="text/javascript" src="js/davglass/effects-extensions.js"></script>
+   <script type="text/javascript" src="js/Topics.js"></script>
+   <script type="text/javascript" src="js/NotificationManager.js"></script>
+   <script type="text/javascript" src="js/Util.js"></script>
+   <script type="text/javascript" src="js/Animation.js"></script>
+   <script type="text/javascript" src="js/ModalPanel.js"></script>
+   <script type="text/javascript" src="js/Ajax.js"></script>
+   <script type="text/javascript" src="js/Conversation.js"></script>
+   <script type="text/javascript" src="js/AjaxPanel.js"></script>
+   <script type="text/javascript" src="js/AddToPlannerIndicator.js"></script>
+   <script type="text/javascript" src="js/ConditionalExecutor.js"></script>
+   <script type="text/javascript" src="js/CartListener.js"></script>
+   <script type="text/javascript" src="js/ReplacingContentDiv.js"></script>
+   <script type="text/javascript" src="js/EnrolledClasses.js"></script>
+   <script type="text/javascript" src="js/SelectComponentsListener.js"></script>
+   <script type="text/javascript" src="js/DropIfEnrolledListener.js"></script>
+   <script type="text/javascript" src="js/Slider.js"></script>
+   <script type="text/javascript">
+     var curvyCornersNoAutoScan = true;
+     var curvyCornersVerbose = false;
+   </script>
+   <script type="text/javascript" src="js/CurvyCorners.js"></script>
+   <script type="text/javascript" src="js/MISRoundCorners.js"></script>
+   <script type="text/javascript" src="js/CourseDetailPanel.js"></script>
+   <script type="text/javascript" src="js/EditClassSectionPanelListener.js"></script>
+   <script type="text/javascript" src="js/HelpPanel.js"></script>
+   <script type="text/javascript" src="js/NiftyCube.js"></script>
+   <script type="text/javascript" src="js/NotificationListener.js"></script>
+   <script type="text/javascript" src="js/PlannerListener.js"></script>
+   <script type="text/javascript" src="js/Schedule.js"></script>
+   <script type="text/javascript" src="js/HideableDiv.js"></script>
+   <script type="text/javascript" src="js/SearchInput.js"></script>
+   <script type="text/javascript" src="js/ShowDetailPanelListener.js"></script>
+   <script type="text/javascript" src="js/sortable-yui.js"></script>
+   <script type="text/javascript" src="js/PopUpOpener.js"></script>
+   <script type="text/javascript" src="js/StylesheetUtil.js"></script>
+   <script type="text/javascript" src="js/TabKeyListener.js"></script>
+
+
+	
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+ 
+<div id="header" style="padding-top: 0px;"><b class="niftycorners" style="margin-left: 0px; margin-right: 0px; background: transparent; margin-bottom: -2px;"><b class="ts1" style="background-color: transparent; border-color: rgb(204, 204, 204);"></b><b class="ts2" style="background-color: transparent; border-color: rgb(204, 204, 204);"></b></b>
+      <div id="logo">
+         
+         <a href="https://acad.app.vanderbilt.edu/student-search/Entry.action"><img src="images/yes_logo.gif" border="0"></a>
+      </div>
+      
+      <div class="clear"></div>
+</div>
+
+	
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+	<div id="subheader" style="padding-bottom: 0px;">
+	   <div class="menuBarContainer">
+         <div id="menuBar" class="yuimenubar yui-module yui-overlay visible" style="z-index: 0; position: static; display: block; visibility: visible;">
+            <div class="bd"> 
+               <ul class="first-of-type">
+                  <li class="yuimenubaritem first-of-type" id="yui-gen0" groupindex="0" index="0">
+                     <a class="yuimenubaritemlabel" href="SearchClasses!input.action">Class Search</a>
+			         </li>
+			         <li class="yuimenubaritem" id="yui-gen1" groupindex="0" index="1">
+			            <a class="yuimenubaritemlabel" href="SearchCourses!input.action">Catalog</a>
+			         </li>
+			         <li class="yuimenubaritem" id="yui-gen2" groupindex="0" index="2">
+			            <a class="yuimenubaritemlabel" href="http://www.vanderbilt.edu/catalogs" target="_blank">PDF Catalog</a>
+			         </li>
+                   <li class="yuimenubaritem" id="yui-gen3" groupindex="0" index="3">
+                       <a class="yuimenubaritemlabel" href="SearchAbroadCourses.action">Study Abroad</a>
+                   </li>
+                   <li class="yuimenubaritem" id="yui-gen4" groupindex="0" index="4">
+                        <a class="yuimenubaritemlabel" href="SearchTransferCredits.action">Transfer Credit</a>
+                   </li> 
+                   
+                     
+                        
+                     
+                     
+				         <li class="yuimenubaritem" title="View Schedule" id="yui-gen5" groupindex="0" index="5">
+	                     <a class="yuimenubaritemlabel" href="/more/GetSchedule!input.action">
+                           Schedule
+                        </a>
+	                  </li>
+                  
+                  
+                  
+                     
+                  
+                  
+                  
+                  
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+   function replaceNameValuePair( href, key, value  )
+   {
+      var nameValuePair = key + "=" + value;
+      var match = new RegExp("(&|\\?)"+key+"=[^\&]*");
+      return href.replace(match,"$1"+nameValuePair);
+   }
+
+   function updateApplicationLinksConfig( name, args )
+   {
+      var commodoreId = args[0].commodoreId;
+      var userCid = args[0].userCid;
+      if( commodoreId && commodoreId != userCid )
+      {
+         var nodes = YAHOO.util.Selector.query( ".commodoreIdNotAvailable" );
+         YAHOO.util.Dom.replaceClass(nodes, "commodoreIdNotAvailable", "commodoreIdAvailable");
+
+         // This header element is "special." YUI won't let us hide it like we do everything else
+         YAHOO.util.Dom.addClass("studentLinksHeader", "linksHeaderLabel");         
+
+         var selectedNodes = YAHOO.util.Selector.query( ".commodoreIdAvailable a" );
+         YAHOO.util.Dom.batch( selectedNodes, function(link)
+            {  
+               // Replace the commodoreId parameters
+               link.href = replaceNameValuePair( link.href, 'cid', commodoreId );
+               link.href = replaceNameValuePair( link.href, 'commodoreId', commodoreId );
+               link.href = replaceNameValuePair( link.href, 'commodoreIdToLoad', commodoreId );
+            }
+         );
+      }
+      else
+      {
+         var nodes = YAHOO.util.Selector.query( ".commodoreIdAvailable" );
+         YAHOO.util.Dom.replaceClass(nodes, "commodoreIdAvailable", "commodoreIdNotAvailable");
+
+         YAHOO.util.Dom.removeClass("studentLinksHeader", "linksHeaderLabel");
+
+         var selectedNodes = YAHOO.util.Selector.query( ".commodoreIdNotAvailable a" );
+         YAHOO.util.Dom.batch( selectedNodes, function(link)
+            {
+               // Remove the commodoreId parameters  
+               link.href = replaceNameValuePair( link.href, 'cid', '' );
+               link.href = replaceNameValuePair( link.href, 'commodoreId', '' );
+               link.href = replaceNameValuePair( link.href, 'commodoreIdToLoad', '' );
+            }
+         );
+      }
+   }
+</script>
+
+<style type="text/css">
+.commodoreIdNotAvailable {
+   display: none !important;
+}
+
+.commodoreIdAvailable {
+   display: block !important;
+}
+</style>
+
+
+
+   
+
+   
+   
+   
+   
+      
+      
+      
+         
+         
+      
+      
+      
+         
+         
+      
+      
+      
+      
+         
+      
+      
+      
+      <li class="yuimenubaritem yuimenubaritem-hassubmenu" id="yui-gen6" groupindex="0" index="6">
+         <a id="applications_baseLink" href="javascript:void(0);" class="yuimenubaritemlabel yuimenubaritemlabel-hassubmenu">Applications »
+</a>
+         <div id="applications_menu" class="yuimenu yui-module yui-overlay yui-overlay-hidden" style="z-index: 2; position: absolute; visibility: hidden;">
+            <div class="bd">
+            
+               
+                  
+                     
+                  
+                  
+                  
+               
+               
+               
+               
+                  <h6 id="studentLinksHeader" class="commodoreIdNotAvailable">Student's Information
+</h6>
+                  <ul class="commodoreIdNotAvailable">
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/student-search/StudentLanding.action?commodoreId=">Student Landing
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/sam/AcademicInformation.action?cid=">Academic Record
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/theo/DocumentRequest.action?commodoreId=">Transcript Request
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/sam/StudentAddress.action?cid=">Personal Information
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/grad/EntryDispatch.action?commodoreId=">Graduation
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/most">Mobile YES
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/sam/degree-audit?cid=">Degree Audit
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/student-search/Billing.action?commodoreId=">Billing Portal
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/sam/StudentDirectDeposit.action?cid=">Direct Deposit
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/student-search/message-center?commodoreId=">Message Center
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/sam/financial-aid?cid=">Financial Aid
+</a>
+                           </li>
+                        
+                     
+                        
+                        
+                           <li class="appLinkItem yuimenuitem commodoreIdNotAvailable">
+                              
+                              
+                              
+                              
+                                 
+                              
+                                 
+                              
+                                 
+                              
+                              
+                              <a class="appLink yuimenuitemlabel commodoreIdNotAvailable" href="https://acad.app.vanderbilt.edu/sam/student-accounts?cid=">Student Accounts
+</a>
+                           </li>
+                        
+                     
+                  </ul>
+                  
+               
+               
+               
+                  
+                     
+                        
+                     
+                     
+                  
+                  
+                     <h6 class="linksHeaderLabel">Your Information
+</h6>
+                       <ul>
+                          
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/student-search/StudentLanding.action?commodoreId=C04242185">Student Landing
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/sam/AcademicInformation.action?cid=C04242185">Academic Record
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/theo/DocumentRequest.action?commodoreId=C04242185">Transcript Request
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/sam/StudentAddress.action?cid=C04242185">Personal Information
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/grad/EntryDispatch.action?commodoreId=C04242185">Graduation
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/most">Mobile YES
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/sam/degree-audit?cid=C04242185">Degree Audit
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/student-search/Billing.action?commodoreId=C04242185">Billing Portal
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/sam/StudentDirectDeposit.action?cid=C04242185">Direct Deposit
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/student-search/message-center?commodoreId=C04242185">Message Center
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/sam/financial-aid?cid=C04242185">Financial Aid
+</a>
+                             </li>
+                         
+                             <li class="appLinkItem yuimenuitem">
+                                
+                                
+                                
+                                
+                                   
+                                
+                                   
+                                
+                                   
+                                
+                        
+                                <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/sam/student-accounts?cid=C04242185">Student Accounts
+</a>
+                             </li>
+                         
+                       </ul>
+                       
+                   
+               
+               
+               
+                  
+                  <h6 class="linksHeaderLabel">Application Access
+</h6>
+               
+               <ul id="appLinks">
+                  
+                  
+                     <li class="appLinkItem yuimenuitem">
+                        
+                        
+                        
+                        
+                           
+                              
+                           
+                        
+                           
+                        
+                           
+                        
+                              
+                        <a class="appLink yuimenuitemlabel" href="https://brightspace.vanderbilt.edu/" target="_blank">Brightspace
+</a>
+                     </li>
+                  
+                     <li class="appLinkItem yuimenuitem">
+                        
+                        
+                        
+                        
+                           
+                        
+                           
+                        
+                           
+                        
+                              
+                        <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/online-grading">Online Grading
+</a>
+                     </li>
+                  
+                     <li class="appLinkItem yuimenuitem">
+                        
+                        
+                        
+                        
+                           
+                        
+                           
+                        
+                           
+                        
+                              
+                        <a class="appLink yuimenuitemlabel" href="https://acad.app.vanderbilt.edu/student-search/message-center?commodoreId=C04242185">Message Center
+</a>
+                     </li>
+                  
+               </ul>
+            </div>
+         </div>
+      </li>
+      
+   
+
+
+
+<script type="text/javascript">
+
+
+YAHOO.util.Event.onContentReady( "applications_menu", function() {
+   updateApplicationLinksConfig( 'test', [{'commodoreId' : 'C04242185', 'userCid' : 'C04242185'}] );
+} )
+</script>
+			         
+                  <li class="yuimenubaritem lastitem" id="yui-gen7" groupindex="0" index="7">
+                     
+                     
+                        <a class="yuimenubaritemlabel" href="logout?global=true">Logout: khalidi</a>
+                     
+                  </li>
+                  
+                  <li class="yuimenubaritem lastitem" id="yui-gen8" groupindex="0" index="8">
+                     
+                      <a href="https://registrar.vanderbilt.edu/registration/yes-help.php" title="Help" target="stuSysHelp" class="yuimenubaritemlabel">
+                         Help
+                      </a>
+                  </li>
+                  
+                  
+
+                  <li id="printMenuItem" class="yuimenubaritem lastitem" groupindex="0" index="9" style="padding: 2px 10px;">
+                     <a id="printerImage" onclick="YAHOO.mis.student.Topics.onPrintViewEnable.fire();" title="Printer friendly view for this schedule" class="yuimenubaritemlabel"><img src="images/printer.gif"> Print</a>
+			         </li>
+			         
+               </ul>
+            </div>
+         </div>
+	   </div>
+	<b class="niftycorners" style="margin-left: 0px; margin-right: 0px; background: transparent; margin-top: -2px;"><b class="ts2" style="background-color: transparent; border-color: rgb(204, 204, 204);"></b><b class="ts1" style="background-color: transparent; border-color: rgb(204, 204, 204);"></b></b></div>
+
+<script type="text/javascript">
+
+YAHOO.util.Event.onContentReady("subheader",function () {
+  var menuBar = new YAHOO.widget.MenuBar("menuBar", { lazyload: true, constraintoviewport: false } );
+  menuBar.render();
+  YAHOO.util.Event.addListener( "printViewDisable", "click", function() { YAHOO.mis.student.Topics.onPrintViewDisable.fire(); });
+
+  YAHOO.util.Dom.setStyle('printMenuItem', 'padding', '2px 10px 2px 10px'); 
+});
+
+var printEnableButton = new YAHOO.widget.Button("printViewEnable");
+
+YAHOO.mis.student.Topics.onPrintViewEnable.subscribe( function() {
+   YAHOO.mis.student.ShowClassDetailPanelListener.disabled=true;
+   YAHOO.mis.student.CourseDetailPanel.disabled=true;
+   YAHOO.mis.student.StylesheetUtil.switchCss('printable');
+   window.onbeforeunload = function(){ return "You can use the 'Cancel Print View' button to return to the previous view.";}
+
+   //Make carousel elements visible no matter what stop when print view enabled.
+   var elements = YAHOO.util.Selector.query(".yui-carousel-element");
+   if (elements)
+   {
+      for (i = 0 ; i < elements.length ; i++ )
+      {
+         YAHOO.mis.student.Util.clipStyle( elements[i], "left", "0" );
+      }
+   }
+});
+
+YAHOO.mis.student.Topics.onPrintViewDisable.subscribe( function() {
+   YAHOO.mis.student.ShowClassDetailPanelListener.disabled=false;
+   YAHOO.mis.student.CourseDetailPanel.disabled=false;
+   YAHOO.mis.student.StylesheetUtil.switchCss(null);
+   window.onbeforeunload = function(){ return;}
+
+   // Return carousel elements to non print state.
+   var elements = YAHOO.util.Selector.query(".yui-carousel-element");
+   if (elements)
+   {
+      for (i = 0 ; i < elements.length ; i++ )
+      {
+         YAHOO.mis.student.Util.unclipStyle( elements[i], "left");
+      }
+   }
+
+});
+</script>
+
+	
+
+	<noscript>
+		
+		<p>You are currently viewing a page which requires JavaScript to function properly.<br>Please enable JavaScript and refresh the page.</p>
+	</noscript>
+
+	<div id="contentWrapper">
+		<div id="content" style="">
+			
+			
+			
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+   
+
+
+<link rel="stylesheet" type="text/css" href="css/GetClassSchedule.css"> 
+<link rel="stylesheet" type="text/css" href="css/CheckboxButtonTag.css">
+
+<div id="leftContextMenu">
+   
+   <div id="termSessionMenu" class="contextMenu" style="padding-bottom: 0px;">
+      <div class="contextMenuItem">
+         
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+<script type="text/javascript">
+
+function updateSelectedSession()
+{
+      var selectedSessionCode = [];
+      var selectedSessionValue = YAHOO.mis.student.Util.getSelectedValue("selectedSession");
+      var url = "/more/SelectTerm!selectSession.action?selectedSessionCode=" + YAHOO.mis.student.Util.getSelectedCode("selectedSession");
+
+      var onSuccess = function(){
+         YAHOO.mis.student.NotificationManager.notify( "Session has been changed to '" + selectedSessionValue + "'" );
+         YAHOO.mis.student.Topics.onSessionChanged.fire( { session : selectedSessionCode } );
+      }
+
+      var onError = function(){
+         YAHOO.mis.student.NotificationManager.error( "There was an error setting the selected session, please try again" );
+      }
+
+      YAHOO.mis.student.Ajax.load( url, { onSuccess : onSuccess, onError : onError } );
+}
+
+function updateSelectedTerm()
+{
+   var select = YAHOO.util.Dom.get("selectedSession");
+   var selectedTermCode = YAHOO.mis.student.Util.getSelectedCode("selectedTerm");
+   var selectedTermLabel = YAHOO.mis.student.Util.getSelectedValue("selectedTerm");
+   var url = "/more/SelectTerm!selectTerm.action?selectedTermCode=" + selectedTermCode;
+   var removeOptions = function( select ){
+      select.options.length = 0;
+   };
+   var createOption = function( parent, text, value )
+   {
+	    var option = new Option();
+	    option.value = value;
+	    option.text = text;
+       parent.options[parent.options.length] = option;
+    };
+   // on update, empty out and display a loading type message in the select box...
+   removeOptions(select);
+   createOption( select, "Loading...", "" );
+   
+   var onSuccess = function( response ){
+      var termActivated = YAHOO.lang.JSON.parse(response.responseText);
+      
+      YAHOO.mis.student.NotificationManager.notify( selectedTermLabel + " term selected" );
+      YAHOO.mis.student.Topics.onTermChanged.fire( { term : selectedTermCode, termLabel : selectedTermLabel, active : termActivated } );
+
+      onSessionsRetrieved = function( response )
+      {
+	      var sessions = YAHOO.lang.JSON.parse(response.responseText);
+		  if( sessions != null )
+		  {	
+			  removeOptions(select);
+			  
+
+			  YAHOO.util.Dom.batch( sessions,
+				function( session )
+			    {
+				  createOption( select, session.longDescription, session.code );
+			    }  
+			  );
+		  } 
+		  // create an empty option if there are no options/sessions for term
+		  if ( select.options.length == 0 ) {
+			  createOption( select, "No Sessions Available", "" ); 
+		  }
+		  YAHOO.mis.student.Topics.onSessionOptionsChanged.fire();
+      }; 
+
+	  var updateSessionsUrl = "/more/SelectStudentSession!updateStudentSessions.action";
+      //Update the session list
+      YAHOO.mis.student.Ajax.load( updateSessionsUrl , { onSuccess : onSessionsRetrieved } );
+    	      
+   }
+
+   var onError = function(){
+      YAHOO.mis.student.NotificationManager.error( "There was an error setting the selected term, please try again" );
+   }
+   
+   YAHOO.mis.student.Ajax.load( url, { onSuccess : onSuccess, onError : onError } );
+
+}
+
+   YAHOO.util.Event.onContentReady ("selectedTerm", function(){updateSelectedTerm()});
+</script>
+     
+ <select name="selectedTermCode" id="selectedTerm" style="width: 105px;" onchange="updateSelectedTerm()">
+    <option value="0920" selected="selected">2019 Spring</option>
+    <option value="0915">2018 Fall</option>
+    <option value="0910">2018 Year</option>
+    <option value="0905">2018 Summer</option>
+    <option value="0900">2018 Spring</option>
+    <option value="0895">2017 Fall</option>
+    <option value="0890">2017 Year</option>
+    <option value="0885">2017 Summer</option>
+    <option value="0880">2017 Spring</option>
+    <option value="0875">2016 Fall</option>
+    <option value="0870">2016 Year</option>
+    <option value="0865">2016 Summer</option>
+    <option value="0860">2016 Spring</option>
+    <option value="0855">2015 Fall</option>
+    <option value="0850">2015 Year</option>
+    <option value="0845">2015 Summer</option>
+    <option value="0840">2015 Spring</option>
+    <option value="0835">2014 Fall</option>
+    <option value="0830">2014 Year</option>
+    <option value="0825">2014 Summer</option>
+    <option value="0820">2014 Spring</option>
+    <option value="0815">2013 Fall</option>
+    <option value="0810">2013 Year</option>
+    <option value="0805">2013 Summer</option>
+    <option value="0800">2013 Spring</option>
+    <option value="0795">2012 Fall</option>
+    <option value="0790">2012 Year</option>
+    <option value="0785">2012 Summer</option>
+    <option value="0780">2012 Spring</option>
+    <option value="0775">2011 Fall</option>
+    <option value="0770">2011 Year</option>
+    <option value="0765">2011 Summer</option>
+    <option value="0760">2011 Spring</option>
+    <option value="0755">2010 Fall</option>
+    <option value="0750">2010 Year</option>
+
+
+</select>
+
+
+            
+  
+      
+      
+	      		<select name="selectedSessionCode" id="selectedSession" style="width: 200px;" onchange="updateSelectedSession()">
+    
+
+
+<option value="1">Regular Academic Session</option></select>
+
+ 
+      
+           
+    
+           
+            
+            
+
+      </div>
+      <div class="clear"></div>
+   <b class="niftycorners" style="margin-left: -10px; margin-right: -10px; background: rgb(255, 255, 255); margin-top: 0px;"><b class="r4" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r3" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r2" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r1" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b></b></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="termSessionLabels">
+   <div id="termSessionLabelsTermLabel"><span class="label">Term: </span>2019 Spring</div>
+   <div id="termSessionLabelsSessionLabel"><span class="label">Session: </span>Regular Academic Session</div>
+</div>
+
+<script type="text/javascript">
+
+YAHOO.util.Event.onDOMReady( function () {
+   setTermDisplayValues();
+   setSessionDisplayValues();
+});
+
+YAHOO.mis.student.Topics.onTermChanged.subscribe( function () {
+   setTermDisplayValues();
+});
+
+YAHOO.mis.student.Topics.onSessionOptionsChanged.subscribe( function () {
+   setSessionDisplayValues();
+});
+
+var setTermDisplayValues = function() {
+   
+      var termLabelText =  "<span class='label'>Term: </span>"+YAHOO.mis.student.Util.getSelectedValue("selectedTerm");
+      YAHOO.mis.student.Util.setInnerHTML("termSessionLabelsTermLabel", termLabelText);
+   
+}
+
+var setSessionDisplayValues = function() {
+   
+      var sessionLabelText =  "<span class='label'>Session: </span>"+YAHOO.mis.student.Util.getSelectedValue("selectedSession");
+      YAHOO.mis.student.Util.setInnerHTML("termSessionLabelsSessionLabel", sessionLabelText);
+   
+}
+
+</script>
+     
+
+
+<div id="mainContextMenu" class="contextMenu" style="padding-top: 0px; padding-bottom: 0px;"><b class="niftycorners" style="margin-left: -10px; margin-right: -10px; background: rgb(255, 255, 255); margin-bottom: -1px;"><b class="r1" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r2" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r3" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r4" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b></b>
+   <div class="contextMenuItem contextMenuDivider" id="calendarView">Calendar</div>
+   <div class="contextMenuItem contextMenuDivider" id="listView">List</div>      
+   
+   <div class="contextMenuItem contextMenuDivider contextMenuCheckboxes">
+      
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form id="GetSchedule" name="selectedStatusForm" action="/more/GetSchedule.action" method="post" class="checkboxButtonForm">
+   
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+<span class="yui-button-checked yui-checkbox-button-checked yui-button yui-checkbox-button" id="enrolledCheckBox"><span class="first-child"><button type="button" tabindex="0" id="enrolledCheckBox-button">Enrolled</button></span></span><input type="hidden" id="__checkbox_enrolledCheckBox" name="__checkbox_enrollmentStatuses" value="E">
+
+<script type="text/javascript">
+
+var enrolledCheckBox = function()
+{
+   var updateHiddenFields = function()
+   {
+	   hiddenCheckbox.checked = button.get("checked");
+   }
+
+   var params = { label: "Enrolled", name : "enrollmentStatuses", type : "checkbox", value : "E" };
+   var onclick = function(){  
+      updateHiddenFields();
+	   
+	      
+	         YAHOO.mis.student.Topics.onEnrollmentFilterChangedEnrolledValue.fire();
+	      
+	   
+	 };
+   params.onclick = {};
+   params.onclick.fn = onclick;
+   params.onclick.obj = null;
+   params.onclick.scope = false;
+
+   var button = new YAHOO.widget.Button("enrolledCheckBox", params );
+   var originalCheckedStatus = button.get("checked"); // figured out by struts 2 above.
+	// Set to true just to render the hidden checkbox, then return to original checked value.
+	// All of this crap must be done for IE <= 7 compatibility.
+   button.set("checked", true);
+   var hiddenCheckbox = button.createHiddenFields();
+   button.set("checked", originalCheckedStatus);
+   updateHiddenFields();
+
+   return button;
+}();
+</script><input name="enrollmentStatuses" type="checkbox" value="E" style="display: none;">
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+<span class="yui-button yui-checkbox-button" id="waitlistedCheckBox"><span class="first-child"><button type="button" tabindex="0" id="waitlistedCheckBox-button">Waiting</button></span></span><input type="hidden" id="__checkbox_waitlistedCheckBox" name="__checkbox_enrollmentStatuses" value="W">
+
+<script type="text/javascript">
+
+var waitlistedCheckBox = function()
+{
+   var updateHiddenFields = function()
+   {
+	   hiddenCheckbox.checked = button.get("checked");
+   }
+
+   var params = { label: "Waiting", name : "enrollmentStatuses", type : "checkbox", value : "W" };
+   var onclick = function(){  
+      updateHiddenFields();
+	   
+	      
+	         YAHOO.mis.student.Topics.onEnrollmentFilterChanged.fire();
+	      
+	   
+	 };
+   params.onclick = {};
+   params.onclick.fn = onclick;
+   params.onclick.obj = null;
+   params.onclick.scope = false;
+
+   var button = new YAHOO.widget.Button("waitlistedCheckBox", params );
+   var originalCheckedStatus = button.get("checked"); // figured out by struts 2 above.
+	// Set to true just to render the hidden checkbox, then return to original checked value.
+	// All of this crap must be done for IE <= 7 compatibility.
+   button.set("checked", true);
+   var hiddenCheckbox = button.createHiddenFields();
+   button.set("checked", originalCheckedStatus);
+   updateHiddenFields();
+
+   return button;
+}();
+</script><input name="enrollmentStatuses" type="checkbox" value="W" style="display: none;">
+
+      
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+<span class="yui-button yui-checkbox-button" id="savedCheckBox"><span class="first-child"><button type="button" tabindex="0" id="savedCheckBox-button">In Cart</button></span></span><input type="hidden" id="__checkbox_savedCheckBox" name="__checkbox_enrollmentStatuses" value="S">
+
+<script type="text/javascript">
+
+var savedCheckBox = function()
+{
+   var updateHiddenFields = function()
+   {
+	   hiddenCheckbox.checked = button.get("checked");
+   }
+
+   var params = { label: "In Cart", name : "enrollmentStatuses", type : "checkbox", value : "S" };
+   var onclick = function(){  
+      updateHiddenFields();
+	   
+	      
+	         YAHOO.mis.student.Topics.onEnrollmentFilterChanged.fire();
+	      
+	   
+	 };
+   params.onclick = {};
+   params.onclick.fn = onclick;
+   params.onclick.obj = null;
+   params.onclick.scope = false;
+
+   var button = new YAHOO.widget.Button("savedCheckBox", params );
+   var originalCheckedStatus = button.get("checked"); // figured out by struts 2 above.
+	// Set to true just to render the hidden checkbox, then return to original checked value.
+	// All of this crap must be done for IE <= 7 compatibility.
+   button.set("checked", true);
+   var hiddenCheckbox = button.createHiddenFields();
+   button.set("checked", originalCheckedStatus);
+   updateHiddenFields();
+
+   return button;
+}();
+</script><input name="enrollmentStatuses" type="checkbox" value="S" style="display: none;">
+
+      
+      
+   
+   
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+<span class="yui-button-checked yui-checkbox-button-checked yui-button yui-checkbox-button" id="teachingCheckBox"><span class="first-child"><button type="button" tabindex="0" id="teachingCheckBox-button">Teaching</button></span></span><input type="hidden" id="__checkbox_teachingCheckBox" name="__checkbox_enrollmentStatuses" value="T">
+
+<script type="text/javascript">
+
+var teachingCheckBox = function()
+{
+   var updateHiddenFields = function()
+   {
+	   hiddenCheckbox.checked = button.get("checked");
+   }
+
+   var params = { label: "Teaching", name : "enrollmentStatuses", type : "checkbox", value : "T" };
+   var onclick = function(){  
+      updateHiddenFields();
+	   
+	      
+	         YAHOO.mis.student.Topics.onEnrollmentFilterChanged.fire();
+	      
+	   
+	 };
+   params.onclick = {};
+   params.onclick.fn = onclick;
+   params.onclick.obj = null;
+   params.onclick.scope = false;
+
+   var button = new YAHOO.widget.Button("teachingCheckBox", params );
+   var originalCheckedStatus = button.get("checked"); // figured out by struts 2 above.
+	// Set to true just to render the hidden checkbox, then return to original checked value.
+	// All of this crap must be done for IE <= 7 compatibility.
+   button.set("checked", true);
+   var hiddenCheckbox = button.createHiddenFields();
+   button.set("checked", originalCheckedStatus);
+   updateHiddenFields();
+
+   return button;
+}();
+</script><input name="enrollmentStatuses" type="checkbox" value="T" style="display: none;">
+
+   
+</form>
+
+
+
+
+<script type="text/javascript">
+   var enrolledCheck = YAHOO.widget.Button.getButton("enrolledCheckBox" );
+   var savedCheck = YAHOO.widget.Button.getButton("savedCheckBox" );
+   var waitlistCheck = YAHOO.widget.Button.getButton("waitlistedCheckBox" );
+   var droppedCheck = YAHOO.widget.Button.getButton("droppedCheckBox" );
+   var teachingCheck = YAHOO.widget.Button.getButton("teachingCheckBox" );
+   var enrollmentCheckboxVars = [enrolledCheck,savedCheck,waitlistCheck,droppedCheck,teachingCheck];
+   
+YAHOO.mis.student.Topics.onEnrollmentFilterChangedEnrolledValue.subscribe( function() { 
+   var withdrawnCheck = YAHOO.util.Dom.get("withdrawnCheckBox" );
+   if(withdrawnCheck)
+   {
+      withdrawnCheck.checked = enrolledCheck.get("checked");
+   }
+   YAHOO.mis.student.Topics.onEnrollmentFilterChanged.fire();
+});
+YAHOO.mis.student.Topics.onEnrollmentFilterChanged.subscribe( function() { 
+	for (var i = 0 ; i < enrollmentCheckboxVars.length ; i++)
+   {
+	   if (enrollmentCheckboxVars[i] != null)
+	   {
+		   enrollmentCheckboxVars[i].set("disabled", true);
+	   }
+   }
+});
+YAHOO.mis.student.Topics.onRefreshEnrolledComplete.subscribe( function() { 
+   for (var i = 0 ; i < enrollmentCheckboxVars.length ; i++)
+   {
+	   if (enrollmentCheckboxVars[i] != null)
+	   {
+		   enrollmentCheckboxVars[i].set("disabled", false);
+	   }
+   }
+});
+</script>
+   </div>
+   
+   
+      <div class="contextMenuItem contextMenuIcon" id="calendarIcons">
+         <a id="emailCalendarLink" href="javascript:void(0);"><img id="sendScheduleEmailImg" src="images/sendEmail.png" title="Send an email with your class schedule to someone"></a>
+         <a id="addToCalendarLink" href="javascript:void(0);"><img id="addToCalendarImg" src="images/addToCalendar.png" title="Add class schedule to your calendar"></a>
+      </div>
+   
+   
+   <div class="clear"></div>
+   
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="emailDialog_div" class="roundedDialog ">
+  <div class="hd" style="border-radius: 4px 4px 0px 0px;">
+  
+   </div>
+   <div class="bd">
+   
+      <div id="sendingContainer">
+            <div id="sendingMessage">Adding your schedule to your calendar.</div>
+            <img src="images/blocks_loading.gif">
+         </div>
+         <div id="addToCalendarContainer">
+            <div class="label">Enter the calendar email address you would like your schedule added to.</div>
+            <div class="controls">
+               <div class="emailAddressInputContainer"> 
+                  <form id="calendarForm" name="calendarForm" action="NotUsed" method="post">
+                     <input type="text" name="emailAddresses[0]" value="irfaan.khalid@vanderbilt.edu" id="addToCalendarInput" class="emailAddressInput">
+                  </form>
+
+
+
+               </div>
+               <div class="emailAddressButtonContainer">
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Use the evaluate tag to allow this tag to accept ognl expressions -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+   
+   
+
+
+
+   <span class="yui-button yui-push-button" id="calendarAddressButton"><span class="first-child"><button type="button" tabindex="0" title="" id="calendarAddressButton-button">Send</button></span></span>
+
+
+
+
+   
+
+
+<!-- Build up URL to send -->           
+ 
+
+
+<!-- new sui:submit code -->
+ 
+<!-- has action attribute SendSchedule   -->
+   
+      
+         
+      
+      
+   
+   
+
+
+
+   
+
+
+<script type="text/javascript">
+calendarAddressButton_var = null;
+
+function calendarAddressButton_initSubmit()
+{
+
+   //Build up parameter maps for the various topics that are fired
+	var calendarAddressButton_clickedTopicParameters = null;
+	
+
+   var calendarAddressButton_successTopicParameters = null;
+	
+   
+	var calendarAddressButton_errorTopicParameters = null;
+	
+
+   // Create a YUI button if type of button is passed
+	
+		   var calendarAddressButton_submit  = new YAHOO.widget.Button("calendarAddressButton");   
+	
+
+  // Deal with the actual submit
+  var calendarAddressButton_configuration = {};
+  
+     calendarAddressButton_configuration.form = 'calendarForm';
+  
+
+   
+   
+   
+   
+   
+   
+   
+   calendarAddressButton_configuration.fireEventOnComplete = true;
+  
+   calendarAddressButton_configuration.showNotificationOnFail = true;
+
+  
+  
+	
+	   calendarAddressButton_configuration.onSuccess = function()
+	   {
+		   
+        
+            
+               YAHOO.mis.student.Topics.onScheduleSent.fire(calendarAddressButton_successTopicParameters);
+            
+         
+	   }
+	
+	
+	   calendarAddressButton_configuration.onError = function()
+	   {
+	      
+	         YAHOO.mis.student.Topics.onErrorSendingSchedule.fire(calendarAddressButton_errorTopicParameters); 
+	      
+	   }
+	
+	
+	var calendarAddressButton_onclick = function( e )
+	{
+	   //Fire off the click events
+	   
+	        
+	           YAHOO.mis.student.Topics.scheduleEmailSendButtonClicked.fire(calendarAddressButton_clickedTopicParameters);
+	        
+	           
+	
+	   // if an onclick is passed, dont submit unless it returns true
+	   
+	
+	   
+	      calendarAddressButton_configuration.method = "GET";
+          
+	      YAHOO.mis.student.DefaultConversation.load( '/more/SendSchedule!addScheduleToCalendar.action', calendarAddressButton_configuration );
+	   
+	}
+
+  calendarAddressButton_var = 
+  {
+     submit :  calendarAddressButton_onclick,
+     enable : function() {
+
+	     YAHOO.util.Event.removeListener( 'calendarAddressButton', 'click' );
+	     YAHOO.util.Event.addListener( 'calendarAddressButton', 'click', calendarAddressButton_onclick );
+	     if( calendarAddressButton_submit )
+	     {
+	        calendarAddressButton_submit.set("disabled", false);    
+	     }
+     },
+	  disable : function(){
+	     YAHOO.util.Event.removeListener( 'calendarAddressButton', 'click' );
+	     if( calendarAddressButton_submit )
+	     {
+	        calendarAddressButton_submit.set("disabled", true);    
+	     }
+	  }
+  };
+  YAHOO.util.Event.addListener( 'calendarAddressButton', 'click', calendarAddressButton_onclick );
+}
+
+var linkElement = YAHOO.util.Dom.get( "calendarAddressButton" );
+
+
+
+
+
+// configure the ajax button after the dom button element is ready.
+YAHOO.util.Event.onContentReady("calendarAddressButton", calendarAddressButton_initSubmit);
+</script>
+               </div>
+               <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+         </div>
+         <div id="sendToEmailContainer">
+            <div class="label">Send a copy of your class schedule to the following email addresses.</div>
+            <div class="controls">
+               <div class="emailAddressInputContainer"> 
+                  <form id="scheduleEmailForm" name="scheduleEmailForm" action="NotUsed2" method="post">
+                     <input type="text" name="emailAddresses[0]" value="irfaan.khalid@vanderbilt.edu" id="emailAddress1" class="emailAddressInput">
+                     <input type="text" name="emailAddresses[1]" value="" id="emailAddress2" class="emailAddressInput">
+                     <input type="text" name="emailAddresses[2]" value="" id="emailAddress3" class="emailAddressInput">
+                  </form>
+
+
+
+               </div>
+               <div class="emailAddressButtonContainer">
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Use the evaluate tag to allow this tag to accept ognl expressions -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+   
+   
+
+
+
+   <span class="yui-button yui-push-button" id="sendToEmailButton"><span class="first-child"><button type="button" tabindex="0" title="" id="sendToEmailButton-button">Send</button></span></span>
+
+
+
+
+   
+
+
+<!-- Build up URL to send -->           
+ 
+
+
+<!-- new sui:submit code -->
+ 
+<!-- has action attribute SendSchedule   -->
+   
+      
+         
+      
+      
+   
+   
+
+
+
+   
+
+
+<script type="text/javascript">
+sendToEmailButton_var = null;
+
+function sendToEmailButton_initSubmit()
+{
+
+   //Build up parameter maps for the various topics that are fired
+	var sendToEmailButton_clickedTopicParameters = null;
+	
+
+   var sendToEmailButton_successTopicParameters = null;
+	
+   
+	var sendToEmailButton_errorTopicParameters = null;
+	
+
+   // Create a YUI button if type of button is passed
+	
+		   var sendToEmailButton_submit  = new YAHOO.widget.Button("sendToEmailButton");   
+	
+
+  // Deal with the actual submit
+  var sendToEmailButton_configuration = {};
+  
+     sendToEmailButton_configuration.form = 'scheduleEmailForm';
+  
+
+   
+   
+   
+   
+   
+   
+   
+   sendToEmailButton_configuration.fireEventOnComplete = true;
+  
+   sendToEmailButton_configuration.showNotificationOnFail = true;
+
+  
+  
+	
+	   sendToEmailButton_configuration.onSuccess = function()
+	   {
+		   
+        
+            
+               YAHOO.mis.student.Topics.onScheduleSent.fire(sendToEmailButton_successTopicParameters);
+            
+         
+	   }
+	
+	
+	   sendToEmailButton_configuration.onError = function()
+	   {
+	      
+	         YAHOO.mis.student.Topics.onErrorSendingSchedule.fire(sendToEmailButton_errorTopicParameters); 
+	      
+	   }
+	
+	
+	var sendToEmailButton_onclick = function( e )
+	{
+	   //Fire off the click events
+	   
+	        
+	           YAHOO.mis.student.Topics.scheduleEmailSendButtonClicked.fire(sendToEmailButton_clickedTopicParameters);
+	        
+	           
+	
+	   // if an onclick is passed, dont submit unless it returns true
+	   
+	
+	   
+	      sendToEmailButton_configuration.method = "GET";
+          
+	      YAHOO.mis.student.DefaultConversation.load( '/more/SendSchedule!emailClassSchedule.action', sendToEmailButton_configuration );
+	   
+	}
+
+  sendToEmailButton_var = 
+  {
+     submit :  sendToEmailButton_onclick,
+     enable : function() {
+
+	     YAHOO.util.Event.removeListener( 'sendToEmailButton', 'click' );
+	     YAHOO.util.Event.addListener( 'sendToEmailButton', 'click', sendToEmailButton_onclick );
+	     if( sendToEmailButton_submit )
+	     {
+	        sendToEmailButton_submit.set("disabled", false);    
+	     }
+     },
+	  disable : function(){
+	     YAHOO.util.Event.removeListener( 'sendToEmailButton', 'click' );
+	     if( sendToEmailButton_submit )
+	     {
+	        sendToEmailButton_submit.set("disabled", true);    
+	     }
+	  }
+  };
+  YAHOO.util.Event.addListener( 'sendToEmailButton', 'click', sendToEmailButton_onclick );
+}
+
+var linkElement = YAHOO.util.Dom.get( "sendToEmailButton" );
+
+
+
+
+
+// configure the ajax button after the dom button element is ready.
+YAHOO.util.Event.onContentReady("sendToEmailButton", sendToEmailButton_initSubmit);
+</script>               
+               </div>
+               <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+         </div>
+   
+   </div>
+   <div class="ft" style="border-radius: 0px 0px 4px 4px;">
+   </div>
+</div>
+<script type="text/javascript">
+YAHOO.util.Event.onContentReady("emailDialog_div", function(event)
+{
+   var round = true;
+   if( !true  )
+   {
+      if( YAHOO.env.ua.ie != 0 )
+      {
+         round = false;
+      }
+   }
+   if( round == true )
+   {
+		YAHOO.mis.student.Corners.round("#emailDialog_div .hd", [4,4,0,0]);
+		YAHOO.mis.student.Corners.round("#emailDialog_div .ft", [0,0,4,4]);
+   }
+});	
+</script>
+
+
+
+
+
+<b class="niftycorners" style="margin-left: -10px; margin-right: -10px; background: rgb(255, 255, 255); margin-top: 0px;"><b class="r4" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r3" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r2" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b><b class="r1" style="background-color: rgb(239, 234, 234); border-color: rgb(247, 244, 244);"></b></b></div> 
+
+<div class="clear"></div>
+
+<script src="js/ScheduleEmail.js"></script>
+<script>
+YAHOO.util.Event.onDOMReady( function() {
+   YAHOO.mis.student.ScheduleEmailListener.init();
+});
+</script>
+
+			<div id="printButtons">
+				<button type="button" id="printViewDisable">Cancel Print
+					View</button>
+				<div class="clear"></div>
+			</div>
+
+			
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="css/GetPlanner.css">
+<link rel="stylesheet" type="text/css" href="css/Carousel.css">
+<link rel="stylesheet" type="text/css" href="css/GetClassSchedule.css">
+   
+<script type="text/javascript" src="js/Carousel.js"></script>
+
+<div id="scheduleCarousel" class="yui-carousel-horizontal yui-carousel yui-carousel-visible" style="width: 983px;">
+	<div class="yui-carousel-nav"><ul style="visibility: visible;"><li class="yui-carousel-nav-first-page yui-carousel-nav-page-selected"><a class="yui-carousel-pager-item" href="#1" tabindex="0"><em>Go to page  1</em></a></li><li><a class="yui-carousel-pager-item" href="#2" tabindex="0"><em>Go to page  2</em></a></li></ul><span class="yui-carousel-button yui-carousel-first-button yui-carousel-first-button-disabled" style="visibility: visible;"><button type="button" id="yui-gen11" name="Previous Page" disabled="true">Previous Page</button></span><span class="yui-carousel-button yui-carousel-next-button" style="visibility: visible;"><button type="button" id="yui-gen12" name="Next Page">Next Page</button></span></div>
+<div class="yui-carousel-content" style="width: 983px;"><ol class="yui-carousel-element" style="height: 750px;">
+		<li id="yui-gen9" class="yui-carousel-item yui-carousel-item-selected" tabindex="0" style="top: 0px; left: 0px; height: 750px;">
+		<div class="carouselPanelHeader">
+		 <h1>Schedule Calendar View</h1>
+	    <div id="paging1" class="yui-pg-container" style=""><span id="yui-pg0-0-prev-span14" class="yui-pg-previous">«</span><a id="yui-pg0-0-next-link15" href="#" class="yui-pg-next" title="Next Page">»</a></div>
+		</div>
+		<div class="carouselPanelBody" style="height: 650px;">
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+<div id="schedule" class="">
+	<div id="schedule_content">
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+<p class="contextInformation">
+	Displaying
+	
+	    enrolled  +  
+	
+	    teaching  
+	
+	classes within a typical week of the term.
+	</p>
+
+
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+<div id="scheduleTable">
+
+
+<div id="SummaryDetails" class="eventSummaryDetails" style="border-radius: 7px;">
+	<div id="SummaryDescription" class="summaryDescription">CS-3892-01</div>
+	<div><span id="SummaryDay"></span> <span id="SummaryTimes">12:10 PM-1:00 PM</span> <span id="SummaryLocation">Featheringill Hall 132</span></div>
+   <div id="SessionDates" class="sessionDates">01/07/2019 - 04/22/2019</div>
+</div>
+
+
+<table class="scheduleTable">
+<tbody><tr class="dayHeader">
+	<td class="timeLabel"></td>
+	
+	<td class="day1 dayLabel">Mon</td>
+	
+	<td class="day2 dayLabel">Tue</td>
+	
+	<td class="day3 dayLabel">Wed</td>
+	
+	<td class="day4 dayLabel">Thu</td>
+	
+	<td class="day5 dayLabel">Fri</td>
+	
+	<td class="day6 dayLabel">Sat</td>
+	
+	<td class="day7 dayLabel">Sun</td>
+	
+</tr>
+
+	<tr class="time0700">
+	<td class="timeLabel">7 am</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time0800">
+	<td class="timeLabel">8 am</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time0900">
+	<td class="timeLabel">9 am</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1000">
+	<td class="timeLabel">10 am</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1100">
+	<td class="timeLabel">11 am</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1200">
+	<td class="timeLabel">12 pm</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1300">
+	<td class="timeLabel">1 pm</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1400">
+	<td class="timeLabel">2 pm</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1500">
+	<td class="timeLabel">3 pm</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1600">
+	<td class="timeLabel">4 pm</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1700">
+	<td class="timeLabel">5 pm</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1800">
+	<td class="timeLabel">6 pm</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+	<tr class="time1900">
+	<td class="timeLabel">7 pm</td>
+	
+	<td class="day1"></td>
+	
+	<td class="day2"></td>
+	
+	<td class="day3"></td>
+	
+	<td class="day4"></td>
+	
+	<td class="day5"></td>
+	
+	<td class="day6"></td>
+	
+	<td class="day7"></td>
+	
+	</tr>
+
+</tbody></table>
+</div>
+
+<script type="text/javascript">
+var classSchedule = new YAHOO.mis.student.Schedule("scheduleTable", 1);
+var dateFormat = {format : "%l:%M %p"};
+
+displaySummary = function(type, args) {
+	var event = args[0];
+	var description = event.description;
+	var startDateTime = YAHOO.util.Date.format(event.startDateTime, dateFormat);
+	var endDateTime = YAHOO.util.Date.format(event.endDateTime, dateFormat);
+	var times = YAHOO.lang.trim(startDateTime) + "-" + YAHOO.lang.trim(endDateTime);
+	var location = event.location;
+	var type = event.type;
+   var sessionDatesString = event.sessionDatesString;
+
+	YAHOO.mis.student.Util.setInnerHTML("SessionDates",sessionDatesString);
+	YAHOO.mis.student.Util.setInnerHTML("SummaryDescription",description);
+	YAHOO.mis.student.Util.setInnerHTML("SummaryTimes",times);
+	YAHOO.mis.student.Util.setInnerHTML("SummaryLocation",location);
+
+	YAHOO.util.Dom.addClass("SummaryDetails", "showSummaryDetails"); 
+}
+
+hideSummary = function(type, args) {
+	YAHOO.util.Dom.removeClass("SummaryDetails", "showSummaryDetails"); 
+}
+
+classSchedule.onEventMouseOver.subscribe(displaySummary);
+classSchedule.onEventMouseOut.subscribe(hideSummary);
+
+
+
+
+classSchedule.addEvent(
+		{
+			eventId : "6453", 
+			description : "MATH-3310-01", 
+			dayNumber : 2, 
+			startDateTime : new Date("January 01, 1970 13:10:00"), 
+			endDateTime : new Date("January 01, 1970 14:25:00") ,
+			location : "Stevenson 1 (Math) 313",
+			type : "Enrolled",
+		   sessionDatesString : "01/07/2019 - 04/22/2019"
+		}
+);
+
+
+
+classSchedule.addEvent(
+		{
+			eventId : "6453", 
+			description : "MATH-3310-01", 
+			dayNumber : 4, 
+			startDateTime : new Date("January 01, 1970 13:10:00"), 
+			endDateTime : new Date("January 01, 1970 14:25:00") ,
+			location : "Stevenson 1 (Math) 313",
+			type : "Enrolled",
+		   sessionDatesString : "01/07/2019 - 04/22/2019"
+		}
+);
+
+
+
+classSchedule.addEvent(
+		{
+			eventId : "14504", 
+			description : "CS-3892-01", 
+			dayNumber : 1, 
+			startDateTime : new Date("January 01, 1970 12:10:00"), 
+			endDateTime : new Date("January 01, 1970 13:00:00") ,
+			location : "Featheringill Hall 132",
+			type : "Enrolled",
+		   sessionDatesString : "01/07/2019 - 04/22/2019"
+		}
+);
+
+
+
+classSchedule.addEvent(
+		{
+			eventId : "14504", 
+			description : "CS-3892-01", 
+			dayNumber : 3, 
+			startDateTime : new Date("January 01, 1970 12:10:00"), 
+			endDateTime : new Date("January 01, 1970 13:00:00") ,
+			location : "Featheringill Hall 132",
+			type : "Enrolled",
+		   sessionDatesString : "01/07/2019 - 04/22/2019"
+		}
+);
+
+
+
+classSchedule.addEvent(
+		{
+			eventId : "14504", 
+			description : "CS-3892-01", 
+			dayNumber : 5, 
+			startDateTime : new Date("January 01, 1970 12:10:00"), 
+			endDateTime : new Date("January 01, 1970 13:00:00") ,
+			location : "Featheringill Hall 132",
+			type : "Enrolled",
+		   sessionDatesString : "01/07/2019 - 04/22/2019"
+		}
+);
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+classSchedule.onEventClicked.subscribe( 
+      function( name, args)
+      {
+         var termCode = YAHOO.mis.student.Util.getSelectedCode( "selectedTerm" );
+         var params = {  classNumber : args[0].eventId,  termCode : termCode };
+         YAHOO.mis.student.Topics.showClassDetailPanel.fire( params );
+      }
+);
+
+var ScheduleEmailListener = YAHOO.mis.student.ScheduleEmailListener;
+ScheduleEmailListener.hideableAddToCalendarDiv.close();
+ScheduleEmailListener.sendScheduleListAvailable = true;
+ScheduleEmailListener.addCalendarAvailable = true;
+ScheduleEmailListener.enableAvailableEmailIconsOnly();
+   
+</script>
+   <div id="printGraphicalLegend">
+      <h4>Calendar Legend</h4>
+      <span class="eventEnrolled">Enrolled items</span>
+      <span class="eventSaved">Cart items</span>
+      <span class="eventWaiting">Waiting items</span>
+      <span class="eventTeaching">Teaching items</span>
+   </div>
+
+
+
+<script type="text/javascript">
+YAHOO.util.Event.onDOMReady(function () {
+   if( YAHOO.env.ua.ie == 0 )
+   {
+     //YAHOO.mis.student.Corners.round("div.event", 2);
+     YAHOO.util.Event.addListener(window, 'resize', function() {
+    		YAHOO.mis.student.Corners.round("div.event", 2);
+    	}, null, this);
+   }
+   YAHOO.mis.student.Corners.round("div.eventSummaryDetails", 7);
+   // set the height of the elements so the schedule doesn't scroll
+   var carouselBodyPadding = 100; 
+   var liPadding = 200;
+   var region = YAHOO.util.Dom.getRegion( "schedule" );
+   var totalHeight = region.bottom-region.top;
+   if (totalHeight < 550) {
+      totalHeight = 550;
+   }
+   
+   YAHOO.mis.student.Util.doForEachElement(".carouselPanelBody", function(element) {YAHOO.util.Dom.setStyle(element , "height", totalHeight+carouselBodyPadding+"px")});   
+   YAHOO.mis.student.Util.doForEachElement("ol.yui-carousel-element", function(element) {YAHOO.util.Dom.setStyle(element , "height", totalHeight+liPadding+"px")}); 
+   YAHOO.mis.student.Util.doForEachElement(".yui-carousel-element>li", function(element) {YAHOO.util.Dom.setStyle(element , "height", totalHeight+liPadding+"px")});
+
+   if ( scheduleViewCarousel.currentPageIndex() == scheduleViewCarousel.CALENDAR_VIEW)
+   {
+      classSchedule.render();
+   } 
+});
+
+</script></div>
+	
+	
+	<!-- Build up URL to send -->            
+	
+
+	 
+      
+      	
+      	   
+      	
+         
+      
+	
+
+	
+
+	
+		<script type="text/javascript">
+         YAHOO.util.Event.onContentReady("schedule", function()
+         {
+         var schedule_content_params = { targetElementInstanceOrId : 'schedule_content' };
+         
+            schedule_content_params.form = "selectedStatusForm";
+         
+         
+         
+         
+         schedule_content_params.onSuccess = function () 
+            { 
+               
+               YAHOO.mis.student.Topics.onRefreshEnrolledComplete.fire( { srcDiv:'schedule' } );
+               
+            };
+         
+
+         
+ 	      
+                           
+	      
+   			
+   				YAHOO.mis.student.Topics.onTermChanged.subscribe(
+   					function( name, args ) { YAHOO.mis.student.DefaultConversation.load( '/more/GetScheduleExecute!createSchedule.action', schedule_content_params ); }
+   				); 
+   			
+   				YAHOO.mis.student.Topics.onSessionChanged.subscribe(
+   					function( name, args ) { YAHOO.mis.student.DefaultConversation.load( '/more/GetScheduleExecute!createSchedule.action', schedule_content_params ); }
+   				); 
+   			
+   				YAHOO.mis.student.Topics.onEnrollmentFilterChanged.subscribe(
+   					function( name, args ) { YAHOO.mis.student.DefaultConversation.load( '/more/GetScheduleExecute!createSchedule.action', schedule_content_params ); }
+   				); 
+   			
+		   
+         });
+		</script>
+   
+</div>
+		</div>
+		</li>
+	   <li id="yui-gen10" class="yui-carousel-item" style="top: 0px; left: 983px; height: 750px;">
+	   <div class="carouselPanelHeader">
+	      <h1>Schedule List View</h1>
+	      <div id="paging2" class="yui-pg-container" style=""><span id="yui-pg0-1-prev-span18" class="yui-pg-previous">«</span><a id="yui-pg0-1-next-link19" href="#" class="yui-pg-next" title="Next Page">»</a></div>
+	   </div>
+	   <div class="carouselPanelBody" style="height: 650px;">
+	      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+<div id="enrolledClassSections" class="">
+	<div id="enrolledClassSections_content">
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+   
+
+
+<script>
+YAHOO.util.Event.onDOMReady(function () {
+   Nifty("div.classHeaderRounded","small");
+});
+</script>
+
+<style type="text/css">
+#EnrolledClassesList_div table.courseTable, #EnrolledClassesList_div table.classTable
+{
+   width:   950px;
+}
+</style>
+
+
+<div class="contextInformation">
+	Displaying
+	
+	    enrolled  +  
+	
+	    teaching  
+	
+	classes.
+</div>
+<div class="clear"></div>
+
+
+	
+      
+         
+         <div class="sessionHeader">
+         	<div class="sessionLabel">Regular Academic Session</div> 
+         	<div class="sessionDates">01/07/2019 - 04/22/2019</div>
+         	<div class="clear"></div>
+         </div>
+         <div class="careerHeader">Undergraduate</div>
+		    
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+   
+   
+
+
+
+
+
+
+
+
+
+<div id="EnrolledClassesList_div" class="classSectionTableTag">   
+
+   
+   
+      
+   
+   
+
+
+   
+   
+   
+      
+      <!--======================== Subject Area Information - only displayed if a different one than the last ========================-->
+      
+      <!--======================== Course Information - only displayed if a different one than the last ========================-->
+      
+      
+            
+            
+            
+               
+            
+            
+               
+                        
+            
+            <table class="classTable">
+               <tbody><tr>
+                  <td class="classHeader" colspan="10">
+                     <div class="classHeaderRounded classHeaderRounded_EnrolledClassesList_div" style="padding-top: 0px; padding-bottom: 0px;"><b class="niftycorners" style="margin-left: -10px; margin-right: 0px; background: rgb(255, 255, 255); margin-bottom: 0px;"><b class="rs1" style="background-color: rgb(212, 176, 100); border-color: rgb(233, 215, 177);"></b><b class="rs2" style="background-color: rgb(212, 176, 100); border-color: rgb(233, 215, 177);"></b></b>
+                     	<div class="left">
+                        	<span class="classAbbreviation">CS 3892:</span> 
+                        	<span class="classDescription">Special Topics - Proj in Web-Based Architecture</span>
+                        </div>
+                        
+                        <div class="clear"></div>
+                     <b class="niftycorners" style="margin-left: -10px; margin-right: 0px; background: rgb(255, 255, 255); margin-top: 0px;"><b class="rs2" style="background-color: rgb(212, 176, 100); border-color: rgb(233, 215, 177);"></b><b class="rs1" style="background-color: rgb(212, 176, 100); border-color: rgb(233, 215, 177);"></b></b></div>
+                  </td>
+               </tr>
+
+            <!--======================== Table "shims" - ancient way to prevent table cells from getting smaller than desired ========================-->
+               <tr class="classTableShim">
+                  
+                  <td width="1%"><img src="images/empty.gif" height="1" width="15" border="0"></td>
+                  <td width="1%"><img src="images/empty.gif" height="1" width="80" border="0"></td>
+                  <td width="23%"><img src="images/empty.gif" height="1" width="125" border="0"></td>
+                  
+   	               <td width="1%"><img src="images/empty.gif" height="1" width="30" border="0"></td>
+                  
+                  
+                     <td width="1%"><img src="images/empty.gif" height="1" width="30" border="0"></td>
+                  
+                  <td width="1%"><img src="images/empty.gif" height="1" width="60" border="0"></td>
+                  <td width="23%"><img src="images/empty.gif" height="1" width="125" border="0"></td>
+                  <td width="23%"><img src="images/empty.gif" height="1" width="195" border="0"></td>
+                  <td width="24%"><img src="images/empty.gif" height="1" width="160" border="0"></td>
+                  <td width="1%"><img src="images/empty.gif" height="1" width="55" border="0"></td>
+               </tr>
+      
+      
+      <!--====================================== Class Section Information - always displayed ====================================-->
+      
+            
+            
+            
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+   
+   
+   <tr id="EnrolledClassesList_classSectionListRow_0_header" class=" classRow">
+      
+   
+      
+      
+      
+      
+      
+      
+         
+      
+      
+      
+      <td id="classNumber_14504" class="classSection" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+         
+            01   
+             
+      </td>
+      <td class="classHours" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+            
+               3.0 hrs
+            
+         
+      </td>
+      <td class="classType" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+         Lecture
+      </td>
+       
+         <td class="classAvailability" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+            
+            
+               <a href="javascript:void(0);" id="linkEnrolledClassesList_classSectionListRow_0" class="availableStatus">20/40</a>
+                  
+            
+            
+            
+            
+            <script type="text/javascript">
+               YAHOO.util.Event.onDOMReady(function () {
+                  YAHOO.util.Event.on('linkEnrolledClassesList_classSectionListRow_0', 'mouseover', function() {
+                     showHelp('panelEnrolledClassesList_classSectionListRow_0', 'linkEnrolledClassesList_classSectionListRow_0');
+                  });
+                  YAHOO.util.Event.on('linkEnrolledClassesList_classSectionListRow_0', 'mouseout', function() {
+                     hideHelp('panelEnrolledClassesList_classSectionListRow_0');
+                  });               
+               });
+            </script>
+            <div id="panelEnrolledClassesList_classSectionListRow_0" class="helpPanel hidden">   
+               <div class="helpBody">
+                  20 of 40 enrolled, 20 seat(s) available
+               </div>
+               <div class="helpFooter"></div>
+            </div> 
+         </td>
+       
+       
+         <td class="classAvailability" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+                     
+            
+               <span class="enrolled">
+                  <img src="images/statusEnrolled.gif" title="Enrolled">
+               </span>               
+              
+            
+            
+            
+            
+		    </td>
+      
+      <td class="classMeetingDays" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+               MWF<br>
+               
+            
+         
+         
+      </td>
+      <td class="classMeetingTimes" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+               12:10p - 01:00p<br>
+               
+            
+         
+         
+      </td>
+      <td class="classBuilding" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+               Featheringill Hall 132<br>
+                
+            
+         
+         
+      </td>
+      <td class="classInstructor" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '14504', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+               Hemingway, Graham S.
+            
+          
+          
+      </td>
+   
+      <td class="classActions">
+         <div class="classActionButtons">
+         	
+            
+            	
+               
+                  
+                  
+                  
+                  
+                     
+                     <a href="javascript:void(0);" onclick="blackBoardClassOpener.open('https://brightspace.vanderbilt.edu/');"><img src="images/brightspace.png" alt="Brightspace }" title="Brightspace"></a>
+                  
+               
+            
+         </div>
+      </td>
+   </tr>
+   
+               
+
+            
+            
+	            
+	            
+            
+                  
+            
+            
+            
+            
+            
+      <!-- Close the classDetail table if this is the last section in the class -->
+      
+      
+            
+      
+      
+      
+      
+
+      
+      
+   
+
+   
+   
+      
+   
+   
+
+
+   
+   
+   
+      
+      <!--======================== Subject Area Information - only displayed if a different one than the last ========================-->
+      
+      <!--======================== Course Information - only displayed if a different one than the last ========================-->
+      
+      
+            
+            
+            
+               
+            
+            
+               
+                        
+            
+            </tbody></table><table class="classTable">
+               <tbody><tr>
+                  <td class="classHeader" colspan="10">
+                     <div class="classHeaderRounded classHeaderRounded_EnrolledClassesList_div" style="padding-top: 0px; padding-bottom: 0px;"><b class="niftycorners" style="margin-left: -10px; margin-right: 0px; background: rgb(255, 255, 255); margin-bottom: 0px;"><b class="rs1" style="background-color: rgb(212, 176, 100); border-color: rgb(233, 215, 177);"></b><b class="rs2" style="background-color: rgb(212, 176, 100); border-color: rgb(233, 215, 177);"></b></b>
+                     	<div class="left">
+                        	<span class="classAbbreviation">MATH 3310:</span> 
+                        	<span class="classDescription">Introduction to Mathematical Logic</span>
+                        </div>
+                        
+                        <div class="clear"></div>
+                     <b class="niftycorners" style="margin-left: -10px; margin-right: 0px; background: rgb(255, 255, 255); margin-top: 0px;"><b class="rs2" style="background-color: rgb(212, 176, 100); border-color: rgb(233, 215, 177);"></b><b class="rs1" style="background-color: rgb(212, 176, 100); border-color: rgb(233, 215, 177);"></b></b></div>
+                  </td>
+               </tr>
+
+            <!--======================== Table "shims" - ancient way to prevent table cells from getting smaller than desired ========================-->
+               <tr class="classTableShim">
+                  
+                  <td width="1%"><img src="images/empty.gif" height="1" width="15" border="0"></td>
+                  <td width="1%"><img src="images/empty.gif" height="1" width="80" border="0"></td>
+                  <td width="23%"><img src="images/empty.gif" height="1" width="125" border="0"></td>
+                  
+   	               <td width="1%"><img src="images/empty.gif" height="1" width="30" border="0"></td>
+                  
+                  
+                     <td width="1%"><img src="images/empty.gif" height="1" width="30" border="0"></td>
+                  
+                  <td width="1%"><img src="images/empty.gif" height="1" width="60" border="0"></td>
+                  <td width="23%"><img src="images/empty.gif" height="1" width="125" border="0"></td>
+                  <td width="23%"><img src="images/empty.gif" height="1" width="195" border="0"></td>
+                  <td width="24%"><img src="images/empty.gif" height="1" width="160" border="0"></td>
+                  <td width="1%"><img src="images/empty.gif" height="1" width="55" border="0"></td>
+               </tr>
+      
+      
+      <!--====================================== Class Section Information - always displayed ====================================-->
+      
+            
+            
+            
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+   
+   
+   <tr id="EnrolledClassesList_classSectionListRow_1_header" class="even classRow">
+      
+   
+      
+      
+      
+      
+      
+      
+         
+      
+      
+      
+      <td id="classNumber_6453" class="classSection" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+         
+            01   
+             
+      </td>
+      <td class="classHours" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+            
+               3.0 hrs
+            
+         
+      </td>
+      <td class="classType" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+         Lecture
+      </td>
+       
+         <td class="classAvailability" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+            
+            
+               <a href="javascript:void(0);" id="linkEnrolledClassesList_classSectionListRow_1" class="availableStatus">17/20</a>
+                  
+            
+            
+            
+            
+            <script type="text/javascript">
+               YAHOO.util.Event.onDOMReady(function () {
+                  YAHOO.util.Event.on('linkEnrolledClassesList_classSectionListRow_1', 'mouseover', function() {
+                     showHelp('panelEnrolledClassesList_classSectionListRow_1', 'linkEnrolledClassesList_classSectionListRow_1');
+                  });
+                  YAHOO.util.Event.on('linkEnrolledClassesList_classSectionListRow_1', 'mouseout', function() {
+                     hideHelp('panelEnrolledClassesList_classSectionListRow_1');
+                  });               
+               });
+            </script>
+            <div id="panelEnrolledClassesList_classSectionListRow_1" class="helpPanel hidden">   
+               <div class="helpBody">
+                  17 of 20 enrolled, 3 seat(s) available
+               </div>
+               <div class="helpFooter"></div>
+            </div> 
+         </td>
+       
+       
+         <td class="classAvailability" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+                     
+            
+               <span class="enrolled">
+                  <img src="images/statusEnrolled.gif" title="Enrolled">
+               </span>               
+              
+            
+            
+            
+            
+		    </td>
+      
+      <td class="classMeetingDays" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+               TR<br>
+               
+            
+         
+         
+      </td>
+      <td class="classMeetingTimes" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+               01:10p - 02:25p<br>
+               
+            
+         
+         
+      </td>
+      <td class="classBuilding" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+               Stevenson 1 (Math) 313<br>
+                
+            
+         
+         
+      </td>
+      <td class="classInstructor" onclick="YAHOO.mis.student.Topics.showClassDetailPanel.fire({classNumber : '6453', termCode : '0920', hideAddToCartButton : 'false'})">
+         
+            
+               Staff
+            
+          
+          
+      </td>
+   
+      <td class="classActions">
+         <div class="classActionButtons">
+         	
+            
+            	
+               
+                  
+                  
+                  
+                  
+                     
+                     <a href="javascript:void(0);" onclick="blackBoardClassOpener.open('https://brightspace.vanderbilt.edu/');"><img src="images/brightspace.png" alt="Brightspace }" title="Brightspace"></a>
+                  
+               
+            
+         </div>
+      </td>
+   </tr>
+   
+               
+
+            
+            
+	            
+	            
+            
+                  
+            
+            
+            
+            
+            
+      <!-- Close the classDetail table if this is the last section in the class -->
+      
+      
+         <!-- This is just to avoid validation errors... -->
+            </tbody></table>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="subjectFooter">
+               <tbody><tr>
+                  <td></td>
+               </tr>
+            </tbody></table>      
+      
+            
+      
+      
+      
+      
+
+      
+      
+   
+
+</div>
+      
+      
+      
+      
+         
+
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+   
+      
+      
+         
+         
+         
+         
+         
+      
+   
+      
+      
+         
+         
+         
+         
+         
+      
+   
+
+
+   
+   
+   
+   
+   
+   
+
+
+
+
+
+   
+   
+   
+   
+
+
+
+
+   <div id="bookNowIndicator" style="display: block;">
+     <span class="yui-button yui-push-button" id="bookNowButton"><span class="first-child"><button type="button" tabindex="0" id="bookNowButton-button">Order Books</button></span></span>
+   </div>
+   <div class="clear"></div>
+   
+       <script>
+            YAHOO.mis.student.EnrolledClasses.setUpBookNow('http://vanderbilt.bncollege.com/webapp/wcs/stores/servlet/TBListView?cm_mmc=RI-_-8021-_-A-_-1&storeId=65163&catalogId=10001&termMapping=Y&courseXml=%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E%3Ctextbookorder%3E%3Ccourses%3E%3Ccourse+dept%3D%22CS%22+num%3D%223892%22+sect%3D%221%22+term%3D%22W19%22%2F%3E%3Ccourse+dept%3D%22MATH%22+num%3D%223310%22+sect%3D%221%22+term%3D%22W19%22%2F%3E%3Ccourse+dept%3D%22MATH%22+num%3D%223310%22+sect%3D%221%22+term%3D%22W19%22%2F%3E%3C%2Fcourses%3E%3C%2Ftextbookorder%3E');
+       </script>
+   
+   
+   <script type="text/javascript">
+   YAHOO.util.Event.onDOMReady(function () {
+   
+      var bookNowButton  = new YAHOO.widget.Button("bookNowButton");
+      if ( YAHOO.env.ua.ie = 0 )
+       {
+         YAHOO.mis.student.Corners.round("#bookNowButton", 4);
+       }
+      YAHOO.util.Event.addListener( "bookNowButton", "click", function() { YAHOO.mis.student.EnrolledClasses.openBookNow(); });
+   });
+   </script>
+
+      
+      
+      
+	
+	</div>
+	
+	
+	<!-- Build up URL to send -->            
+	
+	   
+	
+
+	
+
+	
+
+	
+		<script type="text/javascript">
+         YAHOO.util.Event.onContentReady("enrolledClassSections", function()
+         {
+         var enrolledClassSections_content_params = { targetElementInstanceOrId : 'enrolledClassSections_content' };
+         
+            enrolledClassSections_content_params.form = "selectedStatusForm";
+         
+         
+         
+         
+         enrolledClassSections_content_params.onSuccess = function () 
+            { 
+               
+               YAHOO.mis.student.Topics.onRefreshEnrolledComplete.fire( { srcDiv:'enrolledClassSections' } );
+               
+            };
+         
+
+         
+ 	      
+                           
+	      
+   			
+   				YAHOO.mis.student.Topics.onTermChanged.subscribe(
+   					function( name, args ) { YAHOO.mis.student.DefaultConversation.load( 'StudentClass!getScheduledStudentClasses.action?listReadOnly=true', enrolledClassSections_content_params ); }
+   				); 
+   			
+   				YAHOO.mis.student.Topics.onEnrollmentFilterChanged.subscribe(
+   					function( name, args ) { YAHOO.mis.student.DefaultConversation.load( 'StudentClass!getScheduledStudentClasses.action?listReadOnly=true', enrolledClassSections_content_params ); }
+   				); 
+   			
+		   
+         });
+		</script>
+   
+</div>
+	   </div>
+	   </li>
+	</ol></div></div>
+
+<div id="classDetailContainer" class="hidden">
+   <div class="hd">Class Detail</div>
+   <div id="classDetailBody" class="bd">
+      <div id="classDetailContainer_response"></div>
+   </div>
+   <div id="classDetailFooter" class="ft"></div>
+</div>
+
+<script type="text/javascript" src="js/ScheduleViewCarousel.js"></script>
+<script type="text/javascript">
+var scheduleViewCarousel = YAHOO.mis.student.ScheduleViewCarousel;
+
+YAHOO.mis.student.ScheduleViewCarousel.init();
+YAHOO.util.Event.onDOMReady(function () {
+   
+   // Delay triggering to ensure ajax div are ready ACAD-2012
+   YAHOO.lang.later(100, YAHOO.mis.student.Topics.onEnrollmentFilterChanged, "fire");
+   
+   YAHOO.mis.student.Topics.onEnrollmentFilterChanged.subscribe( function() {classSchedule.clearEvents();} );
+   YAHOO.mis.student.Topics.onTermChanged.subscribe( function() {classSchedule.clearEvents();} );
+   YAHOO.mis.student.Topics.onSessionChanged.subscribe( function() {classSchedule.clearEvents();} );
+   YAHOO.util.Event.addListener(window, 'resize', function() { 
+	    if( scheduleViewCarousel.currentPageIndex() != scheduleViewCarousel.CALENDAR_VIEW ) {
+	    	YAHOO.lang.later(100, this, "suppressGraphicalDisplayOnResize");
+	    }
+	 }, null, self);
+});
+
+// suppress visibility of schedule graphical because it probably got rerendered and may be showing outside of the viewport
+function suppressGraphicalDisplayOnResize() {
+   if( scheduleViewCarousel.currentPageIndex() != scheduleViewCarousel.CALENDAR_VIEW ) {
+    YAHOO.mis.student.Util.doForEachElement(".event", function(element) {
+     YAHOO.util.Dom.setStyle(element, 'display', 'none');
+    });
+  }
+}
+
+YAHOO.mis.student.Topics.onPrintViewEnable.subscribe( function() {
+   classSchedule.clearEvents();
+   YAHOO.lang.later(100, classSchedule, "render");
+});
+YAHOO.mis.student.Topics.onPrintViewDisable.subscribe( function() {
+   classSchedule.clearEvents(); 
+	if ( scheduleViewCarousel.currentPageIndex() == scheduleViewCarousel.CALENDAR_VIEW)
+	{
+	  YAHOO.lang.later(100, classSchedule, "render");
+	}
+});
+
+var blackBoardClassOpener = new YAHOO.mis.student.PopUpOpener(null, "bbClass");
+var gradingClassOpener = new YAHOO.mis.student.PopUpOpener(null, "ogClass");
+</script>
+		</div>
+	</div>
+
+	
+
+	
+		<div id="footer">
+			
+
+
+
+
+
+
+
+                        
+
+
+
+
+
+
+
+<div id="footer">
+   <img src="images/footer_logo.gif">
+</div>
+
+		</div>
+	
+
+	
+
+	<script type="text/javascript">
+	   YAHOO.util.Event.onDOMReady( function(){
+          
+         var notificationListener = new YAHOO.mis.student.NotificationListener( '/more/GetNotifications.action' );
+         
+		   // Nifty used for layout...
+         Nifty("div#header","transparent small top");
+         Nifty("div#subheader","small bottom");
+
+	      
+
+	      
+            Nifty("div#mainContextMenu","medium");
+            Nifty("div#termSessionMenu","medium bottom");
+         
+      });
+
+   </script>
+
+
+
+
+<div id="yui_notification_container"></div><iframe src="https://acad.app.vanderbilt.edu/more/SearchClasses!input.action" id="listPage" name="site" style="height: 0px; width: 0px; border: 0px;"></iframe><div class="event eventEnrolled" id="scheduleTable_event_6453_96" style="position: absolute; top: 555.167px; left: 232px; height: 35.75px; width: 122px;">MATH-3310-01<button style="background-color: red; border-color: red; color: white; width: 20px; height: 12px; vertical-align: middle; font-size: 12px; text-align: center;">--</button></div><div class="event eventEnrolled" id="scheduleTable_event_6453_97" style="position: absolute; top: 555.167px; left: 488px; height: 35.75px; width: 122px;">MATH-3310-01<button style="background-color: red; border-color: red; color: white; width: 20px; height: 12px; vertical-align: middle; font-size: 12px; text-align: center;">--</button></div><div class="event eventEnrolled" id="scheduleTable_event_14504_98" style="position: absolute; top: 524.167px; left: 105px; height: 22.8333px; width: 121px;">CS-3892-01<button style="background-color: red; border-color: red; color: white; width: 20px; height: 12px; vertical-align: middle; font-size: 12px; text-align: center;">--</button></div><div class="event eventEnrolled" id="scheduleTable_event_14504_99" style="position: absolute; top: 524.167px; left: 360px; height: 22.8333px; width: 122px;">CS-3892-01<button style="background-color: red; border-color: red; color: white; width: 20px; height: 12px; vertical-align: middle; font-size: 12px; text-align: center;">--</button></div><div class="event eventEnrolled" id="scheduleTable_event_14504_100" style="position: absolute; top: 524.167px; left: 616px; height: 22.8333px; width: 122px;">CS-3892-01<button style="background-color: red; border-color: red; color: white; width: 20px; height: 12px; vertical-align: middle; font-size: 12px; text-align: center;">--</button></div></body><loom-container id="lo-engage-ext-container"><loom-shadow classname="resolved"></loom-shadow></loom-container></html>
