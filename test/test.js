@@ -23,15 +23,6 @@ describe("background.js", () => {
 });
 
 /**
- * Testing enroll.js
- */
-describe("enroll.js", () => {
-  before(() => {
-    global.chrome = chrome;
-  });
-});
-
-/**
  * Testing schedule.js
  */
 describe("schedule.js", () => {
@@ -62,6 +53,8 @@ describe("scheduleContentScript.js", () => {
   before(() => {
     global.chrome = chrome;
   });
+
+  it("should have the same number of buttons as class blocks", () => {});
 
   // it("should execute enroll.js", () => {
   //   chrome.tabs.executeScript(0, { file: "../src/inject/enroll.js" }, () => {});
