@@ -18,6 +18,15 @@ subject to change, but we intend to stay as lightweight and native as possible w
 This project utilizes ES6 - as such, any and all optimizations offered by the ES6 standard can and will be used. This project also abides by
 [AirBnB's JavaScript style guide](https://github.com/airbnb/javascript).
 
-## Testing Standards
+## Testing
 
-At a high-level, testing this application will involve making sure DOM manipulations are consistent between web pages. In other words, we want to determine that the visual schedule updates synchronously with changes to a class cart. This testing will be completed with a testing framework like Mocha or Selenium.
+At a high-level, testing this application will involve making sure DOM manipulations are consistent between web pages. In other words, we want to determine that the visual schedule updates synchronously with changes to a class cart - testing is mainly done by validing existence of DOM elements.
+
+Testing was completed using [Chai](https://github.com/chaijs/chai), [Sinon-Chrome](https://github.com/acvetkov/sinon-chrome), and [Cheerio](https://github.com/cheeriojs/cheerio).
+
+To run tests, do the following:
+
+```
+cd test
+npm run test
+```
