@@ -4,6 +4,9 @@ const cheerio = require("cheerio");
 const $ = cheerio.load(fs.readFileSync("./html/generic-page.html"));
 const chrome = require("sinon-chrome");
 
+/**
+ * Testing background.js
+ */
 describe("background.js", () => {
   before(() => {
     global.chrome = chrome;
@@ -19,20 +22,24 @@ describe("background.js", () => {
   });
 });
 
+/**
+ * Testing enroll.js
+ */
 describe("enroll.js", () => {
   before(() => {
     global.chrome = chrome;
   });
 });
 
+/**
+ * Testing schedule.js
+ */
 describe("schedule.js", () => {
   before(() => {
     global.chrome = chrome;
   });
 
-  it("should have a div for the iframe", async () => {
-    // Load html
-
+  it("should have a div for the iframe", () => {
     // Grab div around iframe and ensure it exists
     let wrapperDiv = $("#wrapper");
     chai.assert.ok(wrapperDiv, "iframe exists");
@@ -48,6 +55,9 @@ describe("schedule.js", () => {
   });
 });
 
+/**
+ * Testing scheduleContentScript.js
+ */
 describe("scheduleContentScript.js", () => {
   before(() => {
     global.chrome = chrome;
