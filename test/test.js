@@ -1,7 +1,6 @@
 const chai = require("chai");
 const fs = require("fs");
 const cheerio = require("cheerio");
-const $ = cheerio.load(fs.readFileSync("./html/generic-page.html"));
 const chrome = require("sinon-chrome");
 
 /**
@@ -26,8 +25,11 @@ describe("background.js", () => {
  * Testing schedule.js
  */
 describe("schedule.js", () => {
+  let $;
+
   before(() => {
     global.chrome = chrome;
+    $ = cheerio.load(fs.readFileSync("./html/generic-page.html"));
   });
 
   it("should have a div for the iframe", () => {
@@ -50,17 +52,21 @@ describe("schedule.js", () => {
  * Testing scheduleContentScript.js
  */
 describe("scheduleContentScript.js", () => {
+  let $;
+
   before(() => {
     global.chrome = chrome;
+    $ = cheerio.load(fs.readFileSync("./html/schedule.html"));
   });
 
-  it("should have the same number of buttons as class blocks", () => {});
+  it("should have the same number of buttons as class blocks", () => {
+    // Find number of class blocks
+    let numClasses = $(".event").length;
 
-  // it("should execute enroll.js", () => {
-  //   chrome.tabs.executeScript(0, { file: "../src/inject/enroll.js" }, () => {});
-  //   chai.assert.ok(
-  //     chrome.tabs.executeScript.calledOnce,
-  //     "chrome.tabs.executeScript should be called"
-  //   );
-  // });
+    // Find number of buttons created by extension
+    let numButtons = ($.html().match(/>--/g) || []).length;
+
+    // Validate that each class has a button
+    chai.assert.ok(numClasses === numButtons);
+  });
 });
