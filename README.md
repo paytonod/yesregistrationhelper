@@ -2,7 +2,7 @@
 
 ## Architecture Diagram and Rationale
 
-![Architectural Overview](./images/architecture.png)
+![Architectural Overview](./docs/architecture.png)
 
 Ultimately, the architectural goal of this project is _simplicity_. Most interactions occur on the client via DOM manipulation. These changes are reflected back to the YES server and propagated back to our views appropriately. We don't want to invoke any direct changes to the server ourselves - and we don't have access - meaning client-side modification is the best path for this challenge.
 
