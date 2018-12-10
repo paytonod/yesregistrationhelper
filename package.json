@@ -1,34 +1,21 @@
 {
   "name": "yesregistrationhelper",
   "version": "1.0.0",
-  "description": "## Architecture Diagram and Rationale",
+  "description": "",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "chai": "^4.1.2",
     "eslint-config-airbnb": "^17.1.0",
-    "lodash": "^4.17.11",
-    "request": "^2.88.0",
-    "superagent": "^4.0.0"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-google": "^0.11.0",
     "eslint-plugin-import": "^2.14.0",
-    "mocha": "^5.2.0",
-    "puppeteer": "^0.13.0",
-    "sinon-chrome": "^2.3.2",
-    "superagent": "^4.0.0-beta.5",
-    "http-server": "^0.10.0",
     "script-loader": "^0.7.2"
-  },
-  "scripts": {
-    "start": "http-server . -c-1",
-    "test": "NODE_ENV=test mocha --recursive"
   },
   "repository": {
     "type": "git",
