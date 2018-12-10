@@ -1,103 +1,63 @@
-/**
- * For the sake of this application, each individual unit test effectively serves
- * as an integration test end-to-end for functionality between our client (frontend)
- * and YES's servers (backend), hence the relatively abbreviated tests. Nonetheless,
- * testers for this software do find the following tests comprehensive and appropriate.
- */
+const chai = require("chai");
+const fs = require("fs");
+const cheerio = require("cheerio");
+const $ = cheerio.load(fs.readFileSync("./html/generic-page.html"));
+const chrome = require("sinon-chrome");
 
-// import schedule from '../src/inject/schedule.js';
+describe("background.js", () => {
+  before(() => {
+    global.chrome = chrome;
+  });
 
-describe('sum', () => {
-  it('should return sum of arguments', () => {
-    chai.expect(3).to.equal(3);
+  it("should execute enroll.js", () => {
+    // This code is the same as the code in background.js
+    chrome.tabs.executeScript(0, { file: "../src/inject/enroll.js" }, () => {});
+    chai.assert.ok(
+      chrome.tabs.executeScript.calledOnce,
+      "chrome.tabs.executeScript should be called"
+    );
   });
 });
 
-// const puppeteer = require('puppeteer');
-// // const request = require('superagent');
-// const { expect } = require('chai');
-// const _ = require('lodash');
+describe("enroll.js", () => {
+  before(() => {
+    global.chrome = chrome;
+  });
+});
 
-// const globalVariables = _.pick(global, ['browser', 'expect']);
+describe("schedule.js", () => {
+  before(() => {
+    global.chrome = chrome;
+  });
 
-// // Puppeteer options
-// const opts = {
-//   headless: false,
-//   slowMo: 100,
-//   timeout: 10000,
-//   executablePath: '/usr/bin/chromium-browser',
-//   args: [
-//     '--disable-extensions-except=yesregistrationhelper/',
-//     '--load-extension=yesregistrationhelper/',
-//     '--no-sandbox',
-//     '--disable-setuid-sandbox',
-//   ],
-// };
+  it("should have a div for the iframe", async () => {
+    // Load html
 
-// // expose variables
-// // before(async () => {
-// //   global.expect = expect;
-// //   global.browser = await puppeteer.launch(opts);
-// //   done();
-// // });
+    // Grab div around iframe and ensure it exists
+    let wrapperDiv = $("#wrapper");
+    chai.assert.ok(wrapperDiv, "iframe exists");
+  });
 
-// // Test the schedule page
-// describe('Schedule page', () => {
-//   before(async () => {
-//     browser = await puppeteer.launch(opts);
-//     page = await global.browser.newPage();
-//     // await page.goto('https://acad.app.vanderbilt.edu/more/SearchClasses!input.action');
-//   });
+  it("should have the correct iframe src", () => {
+    const correctUrl =
+      "https://acad.app.vanderbilt.edu/more/GetSchedule!input.action#scheduleTable";
 
-//   let page;
+    // Validate that iframe src exists
+    let src = $.html();
+    chai.assert.ok(src.indexOf(correctUrl) !== -1);
+  });
+});
 
-//   it('should work', () => {
-//     expect(true).to.be.true;
-//   });
+describe("scheduleContentScript.js", () => {
+  before(() => {
+    global.chrome = chrome;
+  });
 
-//   // after(async () => {
-//   //   await page.close();
-//   // });
-//   // it('should have the correct page title', async () => {
-//   //   expect(await page.title()).to.eql('Puppeteer Mocha');
-//   // });
-//   // it('should have a heading', async () => {
-//   //   const HEADING_SELECTOR = 'h1';
-//   //   await page.waitFor(HEADING_SELECTOR);
-//   //   const heading = await page.$eval(HEADING_SELECTOR, heading => heading.innerText);
-//   //   expect(heading).to.eql('Page Title');
-//   // });
-// });
-
-// // Test any other page
-// describe('Generic YES page', () => {
-//   // let page;
-//   // before(async () => {
-//   //   page = await browser.newPage();
-//   //   await page.goto('http://localhost:8080');
-//   // });
-//   // after(async () => {
-//   //   await page.close();
-//   // });
-//   // it('should have the correct page title', async () => {
-//   //   expect(await page.title()).to.eql('Puppeteer Mocha');
-//   // });
-//   // it('should have a heading', async () => {
-//   //   const HEADING_SELECTOR = 'h1';
-//   //   await page.waitFor(HEADING_SELECTOR);
-//   //   const heading = await page.$eval(HEADING_SELECTOR, heading => heading.innerText);
-//   //   expect(heading).to.eql('Page Title');
-//   // });
-//   // it('should have a single content section', async () => {
-//   //   const BODY_SELECTOR = '.main-content';
-//   //   await page.waitFor(BODY_SELECTOR);
-//   //   expect(await page.$$(BODY_SELECTOR)).to.have.lengthOf(1);
-//   // });
-// });
-
-// // close browser and reset global variables
-// // after(() => {
-// //   browser.close();
-// //   global.browser = globalVariables.browser;
-// //   global.expect = globalVariables.expect;
-// // });
+  // it("should execute enroll.js", () => {
+  //   chrome.tabs.executeScript(0, { file: "../src/inject/enroll.js" }, () => {});
+  //   chai.assert.ok(
+  //     chrome.tabs.executeScript.calledOnce,
+  //     "chrome.tabs.executeScript should be called"
+  //   );
+  // });
+});
